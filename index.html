@@ -559,9 +559,9 @@ const LS_LINK      = "eem26_wa_link";
 const LS_APIKEY    = "eem26_api_key";
 const LS_BINID     = "eem26_bin_id";
 const PRESET_KEY   = "$2a$10$vHyuYzViCczRAed.Te5hpeNYBorRwIi6tPeVwldx50yc4JuH0UVP.";
-const PRESET_BIN   = "69c926a66860e0745b003c27";
-localStorage.setItem(LS_APIKEY, PRESET_KEY);
-localStorage.setItem(LS_BINID,  PRESET_BIN);
+const PRESET_BIN   = "";
+localStorage.removeItem(LS_LINK);
+localStorage.removeItem(LS_BINID);
 
 // ── FETCH LINK FROM CLOUD OR FALLBACK ──
 async function getLink(){
