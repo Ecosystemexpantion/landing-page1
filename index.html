@@ -251,7 +251,7 @@ footer{background:#000;text-align:center;padding:18px;font-size:.7rem;color:#333
 
 .om-progress{height:2px;background:rgba(255,255,255,.04);margin:18px -22px -22px}
 .om-progress-fill{height:100%;background:linear-gradient(90deg,#F5A623,#FFD700);width:100%;transform-origin:left center;will-change:transform}
-#offer-modal.open .om-progress-fill{animation:omDrain 5s linear forwards}
+#offer-modal.open .om-progress-fill{animation:omDrain 30s linear forwards}
 @keyframes omDrain{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 
 .om-foot{display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 22px;border-top:1px solid #18182a;font-size:.66rem;font-weight:600;letter-spacing:1.5px;color:#5a5a78;text-transform:uppercase;background:#08080d}
@@ -323,7 +323,7 @@ footer{background:#000;text-align:center;padding:18px;font-size:.7rem;color:#333
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>
 
-      <p class="om-caption">Auto-opening in <span class="om-count" id="om-count">5</span>s · Tap <b>"Join Group"</b> when WhatsApp opens</p>
+      <p class="om-caption">Auto-opening in <span class="om-count" id="om-count">30</span>s · Tap <b>"Join Group"</b> when WhatsApp opens</p>
 
       <div class="om-progress"><div class="om-progress-fill"></div></div>
     </div>
@@ -780,8 +780,8 @@ const obs = new IntersectionObserver(entries=>{
 },{threshold:.08});
 document.querySelectorAll('.reveal,.learn-list li,.for-card').forEach(el=>obs.observe(el));
 
-// ── OFFER MODAL — INTERCEPT WA-LINK, SHOW GIFT POPUP, AUTO-REDIRECT IN 5s ──
-const OFFER_DURATION = 5000;
+// ── OFFER MODAL — INTERCEPT WA-LINK, SHOW GIFT POPUP, AUTO-REDIRECT IN 30s ──
+const OFFER_DURATION = 30000;
 let offerTimeoutId = null;
 let offerCountId   = null;
 
@@ -792,11 +792,11 @@ function openOfferModal(link){
   if(!modal || !cta || !count) { window.location.href = link; return; }
 
   cta.setAttribute('href', link);
-  count.textContent = '5';
+  count.textContent = '30';
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 
-  let s = 5;
+  let s = 30;
   offerCountId = setInterval(()=>{
     s--;
     if(s >= 0) count.textContent = s;
