@@ -283,8 +283,6 @@ footer{background:#000;text-align:center;padding:18px;font-size:.7rem;color:#333
       <p>Paste your new link. Updates <strong style="color:var(--green)">ALL devices</strong> instantly.</p>
       <label>New Group Link</label>
       <input type="url" id="wa-input" placeholder="https://...">
-      <input type="hidden" id="api-key-input">
-      <input type="hidden" id="bin-id-input">
       <button class="admin-save" onclick="saveLink()">✓ Save & Update For Everyone</button>
       <button class="admin-close" onclick="closeAdmin()">Close</button>
       <div class="admin-status" id="save-status"></div>
@@ -643,26 +641,22 @@ footer{background:#000;text-align:center;padding:18px;font-size:.7rem;color:#333
 
 <script>
 // ── CONFIG ──
-const DEFAULT_LINK = "https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2";
-const ADMIN_PWD    = "sdda2025";
-const LS_LINK      = "eem26_wa_link";
-const LS_APIKEY    = "eem26_api_key";
-const LS_BINID     = "eem26_bin_id";
-const PRESET_KEY   = "$2a$10$edXc0zx0cgn/01mitwUF1OppwFrprv8ChOsWTpAHfM/rkyxtyeUe.";
-const PRESET_BIN   = "69ecb7ee36566621a8ee1e12";
-localStorage.setItem(LS_APIKEY, PRESET_KEY);
-localStorage.setItem(LS_BINID,  PRESET_BIN);
+const DEFAULT_LINK   = "https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2";
+const ADMIN_PWD      = "sdda2025";
+const LS_LINK        = "eem26_wa_link";
+const SUPABASE_URL   = "https://leqizarzgfpiriknpnxw.supabase.co";
+const SUPABASE_KEY   = "sb_publishable__RI8eVa335NBMWDhe5WJmQ_ezh0pUxV";
+const CONFIG_ID      = "eem26";
 
-// ── FETCH LINK FROM CLOUD OR FALLBACK ──
+// ── FETCH LINK FROM SUPABASE OR FALLBACK ──
 async function getLink(){
-  const apiKey = localStorage.getItem(LS_APIKEY) || PRESET_KEY;
-  const binId  = localStorage.getItem(LS_BINID)  || PRESET_BIN;
   try {
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`,{
-      headers:{"X-Master-Key":apiKey,"X-Bin-Meta":"false"}
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/site_config?id=eq.${CONFIG_ID}&select=wa_link`,{
+      headers:{ apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
     });
     const data = await res.json();
-    if(data.waLink){ localStorage.setItem(LS_LINK,data.waLink); return data.waLink; }
+    const link = Array.isArray(data) && data[0] && data[0].wa_link;
+    if(link){ localStorage.setItem(LS_LINK,link); return link; }
   } catch(e){}
   return localStorage.getItem(LS_LINK) || DEFAULT_LINK;
 }
@@ -699,10 +693,6 @@ function checkPwd(){
   if(val === ADMIN_PWD){
     document.getElementById("pwd-screen").style.display = "none";
     document.getElementById("main-admin").style.display = "flex";
-    const sk = localStorage.getItem(LS_APIKEY);
-    const sb = localStorage.getItem(LS_BINID);
-    if(sk) document.getElementById("api-key-input").value = sk;
-    if(sb) document.getElementById("bin-id-input").value  = sb;
     getLink().then(l => { document.getElementById("wa-input").value = l; });
     setTimeout(()=>document.getElementById("wa-input").focus(),100);
   } else {
@@ -712,45 +702,35 @@ function checkPwd(){
 }
 
 async function saveLink(){
-  const val    = document.getElementById("wa-input").value.trim();
-  const apiKey = document.getElementById("api-key-input").value.trim();
-  const binId  = document.getElementById("bin-id-input").value.trim();
+  const val = document.getElementById("wa-input").value.trim();
   if(!val.startsWith("http")){
     document.getElementById("save-status").textContent = "❌ Please enter a valid link";
     document.getElementById("save-status").style.color = "#ff4444";
     return;
   }
-  if(apiKey) localStorage.setItem(LS_APIKEY,apiKey);
-  if(binId)  localStorage.setItem(LS_BINID,binId);
-  const storedKey = apiKey || localStorage.getItem(LS_APIKEY) || PRESET_KEY;
-  const storedBin = binId  || localStorage.getItem(LS_BINID)  || PRESET_BIN;
-  if(storedKey && storedBin){
-    document.getElementById("save-status").textContent = "Updating for all devices...";
-    document.getElementById("save-status").style.color = "#aaa";
-    try {
-      const res = await fetch(`https://api.jsonbin.io/v3/b/${storedBin}`,{
-        method:"PUT",
-        headers:{"Content-Type":"application/json","X-Master-Key":storedKey},
-        body: JSON.stringify({waLink:val})
-      });
-      if(res.ok){
-        localStorage.setItem(LS_LINK,val);
-        setButtons(val);
-        document.getElementById("save-status").textContent = "✓ Updated for ALL devices instantly!";
-        document.getElementById("save-status").style.color = "#22C55E";
-        setTimeout(closeAdmin,1800);
-        return;
-      }
-    } catch(e){}
-    document.getElementById("save-status").textContent = "❌ Cloud save failed";
-    document.getElementById("save-status").style.color = "#ff4444";
-  } else {
-    localStorage.setItem(LS_LINK,val);
-    setButtons(val);
-    document.getElementById("save-status").textContent = "⚠ Saved on this device only.";
-    document.getElementById("save-status").style.color = "#F5A623";
-    setTimeout(closeAdmin,2200);
-  }
+  document.getElementById("save-status").textContent = "Updating for all devices...";
+  document.getElementById("save-status").style.color = "#aaa";
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/update_wa_link`,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json",
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`
+      },
+      body: JSON.stringify({ p_id: CONFIG_ID, p_link: val, p_pwd: ADMIN_PWD })
+    });
+    if(res.ok){
+      localStorage.setItem(LS_LINK,val);
+      setButtons(val);
+      document.getElementById("save-status").textContent = "✓ Updated for ALL devices instantly!";
+      document.getElementById("save-status").style.color = "#22C55E";
+      setTimeout(closeAdmin,1800);
+      return;
+    }
+  } catch(e){}
+  document.getElementById("save-status").textContent = "❌ Cloud save failed";
+  document.getElementById("save-status").style.color = "#ff4444";
 }
 
 // ── SECRET ADMIN TRIGGERS ──
