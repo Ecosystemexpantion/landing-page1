@@ -256,9 +256,137 @@ footer{background:#000;text-align:center;padding:18px;font-size:.7rem;color:#333
 
 .om-foot{display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 22px;border-top:1px solid #18182a;font-size:.66rem;font-weight:600;letter-spacing:1.5px;color:#5a5a78;text-transform:uppercase;background:#08080d}
 .om-foot-tick{width:11px;height:11px;color:#F5A623;flex-shrink:0}
+
+/* ══════════ LIQUID GLASS ══════════ */
+:root{
+  --glass-fill:linear-gradient(135deg,rgba(255,255,255,.11) 0%,rgba(255,255,255,.04) 45%,rgba(255,255,255,.07) 100%);
+  --glass-edge:rgba(255,255,255,.16);
+  --glass-blur:blur(26px) saturate(185%) brightness(1.08);
+  --glass-shadow:inset 0 1px 0 rgba(255,255,255,.32),inset 0 -1px 0 rgba(255,255,255,.06),inset 0 0 22px rgba(255,255,255,.035),0 12px 40px rgba(0,0,0,.38);
+  --border:rgba(255,255,255,.1);
+}
+body{background:#05050b}
+
+/* Living color field behind the glass */
+.lg-backdrop{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 50% 120%,#120a2e 0%,#05050b 60%)}
+.lg-orb{position:absolute;border-radius:50%;opacity:.55;will-change:transform}
+.lg-orb.o1{width:60vmax;height:60vmax;left:-18vmax;top:-14vmax;background:radial-gradient(circle,#6C63FF 0%,transparent 65%);animation:orbA 26s ease-in-out infinite alternate}
+.lg-orb.o2{width:50vmax;height:50vmax;right:-16vmax;top:22vh;background:radial-gradient(circle,#22C55E 0%,transparent 62%);opacity:.32;animation:orbB 32s ease-in-out infinite alternate}
+.lg-orb.o3{width:46vmax;height:46vmax;left:8vw;bottom:-18vmax;background:radial-gradient(circle,#F5A623 0%,transparent 62%);opacity:.3;animation:orbC 29s ease-in-out infinite alternate}
+.lg-orb.o4{width:34vmax;height:34vmax;right:12vw;top:-10vmax;background:radial-gradient(circle,#d946ef 0%,transparent 65%);opacity:.28;animation:orbA 36s ease-in-out infinite alternate-reverse}
+.lg-grain{position:absolute;inset:0;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@keyframes orbA{to{transform:translate(14vw,18vh) scale(1.15)}}
+@keyframes orbB{to{transform:translate(-18vw,-12vh) scale(.9)}}
+@keyframes orbC{to{transform:translate(20vw,-16vh) scale(1.1)}}
+
+/* Let the color flow through every band */
+.ticker-bar,.hero,.slots-bar,.proof-strip,.testi-section,.urgency-bar,.final-cta{background:transparent}
+.hero-dots{opacity:.5}
+footer{background:rgba(0,0,0,.35);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);color:#55556a}
+
+/* The glass material */
+.glass,nav,.stat-pill,.proof-card,.video-card,.testi-card,.learn-list li,.for-card,.slots-inner,.urgency-bar p,.live-badge,.admin-box,.om-card,.ticker-bar{
+  position:relative;
+  background:var(--glass-fill);
+  -webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+  border:1px solid var(--glass-edge);
+  box-shadow:var(--glass-shadow);
+  isolation:isolate;
+}
+nav{position:sticky}
+/* Specular highlight that follows the pointer (--mx/--my set in JS) */
+.stat-pill::after,.proof-card::after,.video-card::after,.testi-card::after,.learn-list li::after,.for-card::after,.slots-inner::after,.om-card::after,.admin-box::after,nav::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
+  background:
+    radial-gradient(420px circle at var(--mx,30%) var(--my,-20%),rgba(255,255,255,.14),transparent 45%),
+    linear-gradient(160deg,rgba(255,255,255,.12) 0%,transparent 32%);
+  mix-blend-mode:screen;transition:opacity .3s;
+}
+/* Rim light – a thin bright edge that fades around the shape */
+.proof-card::before,.video-card::before,.stat-pill::before,.for-card::before,.slots-inner::before,.om-card::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;z-index:3;
+  background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(255,255,255,.04) 35%,rgba(255,255,255,0) 60%,rgba(255,255,255,.22));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+}
+
+/* Shapes – softer, more iOS */
+.ticker-bar{border-width:0 0 1px;border-radius:0;box-shadow:inset 0 -1px 0 rgba(255,255,255,.06)}
+nav{top:10px;margin:10px 12px 0;border-radius:22px;padding:12px 14px 12px 20px;background:linear-gradient(135deg,rgba(20,18,40,.55),rgba(20,18,40,.32))}
+.stat-pill{border-radius:20px;padding:14px 20px}
+.proof-card,.video-card{border-radius:28px}
+.proof-card-header,.proof-card-footer,.video-caption-top{border-color:rgba(255,255,255,.08)}
+.proof-img-wrap img{border-radius:16px;border-color:rgba(255,255,255,.12)}
+.testi-card{border-radius:24px}
+.testi-footer{border-color:rgba(255,255,255,.08)}
+.learn-list li{border-radius:18px}
+.for-card{border-radius:22px}
+.slots-inner{border-radius:28px;padding:26px 22px;max-width:520px}
+.slots-track{background:rgba(255,255,255,.08);box-shadow:inset 0 1px 2px rgba(0,0,0,.4)}
+.urgency-bar p{display:inline-block;padding:14px 26px;border-radius:999px}
+.live-badge{border-radius:999px;background:linear-gradient(135deg,rgba(34,197,94,.22),rgba(34,197,94,.06));border-color:rgba(34,197,94,.35)}
+.dashboard-sim{border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 1px 0 #fff}
+.student-avatar,.testi-avatar{box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 0 0 1px rgba(255,255,255,.08)}
+.divider{border-radius:9px;box-shadow:0 0 14px rgba(108,99,255,.6)}
+
+/* Liquid buttons – tinted glass with a glossy top lens */
+.cta-btn,.float-btn,.nav-cta,.om-cta,.admin-save{
+  overflow:hidden;isolation:isolate;
+  border:1px solid rgba(255,255,255,.28);
+  -webkit-backdrop-filter:blur(14px) saturate(180%);backdrop-filter:blur(14px) saturate(180%);
+}
+.cta-btn,.float-btn,.om-cta{background:linear-gradient(135deg,rgba(52,211,113,.92),rgba(22,163,74,.82));border-radius:999px}
+.nav-cta,.admin-save{background:linear-gradient(135deg,rgba(124,116,255,.9),rgba(79,70,229,.8));border-radius:999px}
+.cta-btn::before,.float-btn::before,.nav-cta::before,.om-cta::before,.admin-save::before{
+  content:"";position:absolute;left:6%;right:6%;top:2px;height:48%;border-radius:999px;z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));opacity:.55;
+}
+.cta-btn::after,.float-btn::after,.om-cta::after{
+  content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;z-index:-1;pointer-events:none;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);
+  animation:lgShine 4.5s ease-in-out infinite;
+}
+.cta-btn,.nav-cta,.om-cta,.admin-save{position:relative}
+@keyframes lgShine{0%,60%{left:-60%}100%{left:130%}}
+.cta-btn{box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 6px rgba(0,0,0,.18),0 10px 34px rgba(34,197,94,.35)}
+@keyframes btnGlow{0%,100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 6px rgba(0,0,0,.18),0 10px 34px rgba(34,197,94,.3)}50%{box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 6px rgba(0,0,0,.18),0 12px 56px rgba(34,197,94,.55)}}
+@keyframes floatPulse{0%,100%{box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 30px rgba(34,197,94,.4)}50%{box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 8px 48px rgba(34,197,94,.65)}}
+.cta-btn,.float-btn,.nav-cta,.om-cta{transition:transform .35s cubic-bezier(.34,1.56,.64,1),filter .2s}
+.cta-btn:hover,.om-cta:hover{transform:translateY(-2px) scale(1.02)}
+.cta-btn:active,.float-btn:active,.nav-cta:active,.om-cta:active{transform:scale(.96);filter:brightness(1.1)}
+
+/* Hover lift for cards (pointer devices) */
+@media(hover:hover){
+  .proof-card,.video-card,.testi-card,.for-card,.stat-pill,.learn-list li{transition:transform .5s cubic-bezier(.34,1.56,.64,1),box-shadow .4s,opacity .5s}
+  .proof-card:hover,.video-card:hover,.testi-card:hover,.for-card.visible:hover,.stat-pill:hover,.learn-list li.visible:hover{transform:translateY(-4px);box-shadow:var(--glass-shadow),0 22px 60px rgba(0,0,0,.45)}
+}
+
+/* Modal & admin as frosted sheets */
+#offer-modal{background:rgba(4,4,10,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.om-card{background:linear-gradient(170deg,rgba(40,36,80,.6),rgba(12,12,24,.72));border-radius:30px 30px 0 0}
+@media(min-width:640px){.om-card{border-radius:30px}}
+.om-foot{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.08)}
+.om-check{border-radius:7px}
+#admin-panel{background:rgba(0,0,0,.5);backdrop-filter:blur(12px)}
+.admin-box{background:linear-gradient(170deg,rgba(40,36,80,.6),rgba(12,12,24,.75));border-radius:28px}
+.admin-box input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;box-shadow:inset 0 1px 3px rgba(0,0,0,.3)}
+
+/* Fallbacks */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  nav,.stat-pill,.proof-card,.video-card,.testi-card,.learn-list li,.for-card,.slots-inner,.admin-box,.om-card{background:rgba(22,20,40,.92)}
+}
+@media(prefers-reduced-motion:reduce){
+  .lg-orb,.cta-btn::after,.float-btn::after,.om-cta::after{animation:none}
+}
+@media(max-width:480px){
+  nav{margin:8px 8px 0;top:8px}
+}
 </style>
 </head>
 <body>
+<div class="lg-backdrop" aria-hidden="true">
+  <div class="lg-orb o1"></div><div class="lg-orb o2"></div><div class="lg-orb o3"></div><div class="lg-orb o4"></div>
+  <div class="lg-grain"></div>
+</div>
 
 <!-- FLOATING BUTTON -->
 <a href="https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2" class="float-btn wa-link" target="_blank">
@@ -808,6 +936,27 @@ document.querySelectorAll('.wa-link').forEach(el=>{
     openOfferModal(this.href);
   });
 });
+
+// ── LIQUID GLASS: specular highlight follows pointer/finger ──
+(function(){
+  const sel = '.stat-pill,.proof-card,.video-card,.testi-card,.learn-list li,.for-card,.slots-inner,.om-card,.admin-box,nav';
+  let raf = null, last = null;
+  function move(x,y){
+    last = [x,y];
+    if(raf) return;
+    raf = requestAnimationFrame(()=>{
+      raf = null;
+      const el = document.elementFromPoint(last[0],last[1]);
+      const g = el && el.closest(sel);
+      if(!g) return;
+      const r = g.getBoundingClientRect();
+      g.style.setProperty('--mx', (last[0]-r.left)+'px');
+      g.style.setProperty('--my', (last[1]-r.top)+'px');
+    });
+  }
+  window.addEventListener('pointermove', e=>move(e.clientX,e.clientY), {passive:true});
+  window.addEventListener('touchmove', e=>{ const t=e.touches[0]; if(t) move(t.clientX,t.clientY); }, {passive:true});
+})();
 
 // ── INIT ──
 applyLink();
