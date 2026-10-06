@@ -259,22 +259,22 @@ footer{background:#000;text-align:center;padding:18px;font-size:.7rem;color:#333
 
 /* ══════════ LIQUID GLASS ══════════ */
 :root{
-  --glass-fill:linear-gradient(135deg,rgba(255,255,255,.11) 0%,rgba(255,255,255,.04) 45%,rgba(255,255,255,.07) 100%);
-  --glass-edge:rgba(255,255,255,.16);
-  --glass-blur:blur(26px) saturate(185%) brightness(1.08);
-  --glass-shadow:inset 0 1px 0 rgba(255,255,255,.32),inset 0 -1px 0 rgba(255,255,255,.06),inset 0 0 22px rgba(255,255,255,.035),0 12px 40px rgba(0,0,0,.38);
+  --glass-fill:linear-gradient(135deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.02) 45%,rgba(255,255,255,.035) 100%);
+  --glass-edge:rgba(255,255,255,.1);
+  --glass-blur:blur(26px) saturate(140%);
+  --glass-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 -1px 0 rgba(255,255,255,.03),0 12px 40px rgba(0,0,0,.45);
   --border:rgba(255,255,255,.1);
 }
 body{background:#05050b}
 
 /* Living color field behind the glass */
 .lg-backdrop{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:radial-gradient(ellipse at 50% 120%,#120a2e 0%,#05050b 60%)}
-.lg-orb{position:absolute;border-radius:50%;opacity:.55;will-change:transform}
+.lg-orb{position:absolute;border-radius:50%;opacity:.22;will-change:transform}
 .lg-orb.o1{width:60vmax;height:60vmax;left:-18vmax;top:-14vmax;background:radial-gradient(circle,#6C63FF 0%,transparent 65%);animation:orbA 26s ease-in-out infinite alternate}
-.lg-orb.o2{width:50vmax;height:50vmax;right:-16vmax;top:22vh;background:radial-gradient(circle,#22C55E 0%,transparent 62%);opacity:.32;animation:orbB 32s ease-in-out infinite alternate}
-.lg-orb.o3{width:46vmax;height:46vmax;left:8vw;bottom:-18vmax;background:radial-gradient(circle,#F5A623 0%,transparent 62%);opacity:.3;animation:orbC 29s ease-in-out infinite alternate}
-.lg-orb.o4{width:34vmax;height:34vmax;right:12vw;top:-10vmax;background:radial-gradient(circle,#d946ef 0%,transparent 65%);opacity:.28;animation:orbA 36s ease-in-out infinite alternate-reverse}
-.lg-grain{position:absolute;inset:0;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.lg-orb.o2{width:50vmax;height:50vmax;right:-16vmax;top:22vh;background:radial-gradient(circle,#22C55E 0%,transparent 62%);opacity:.12;animation:orbB 32s ease-in-out infinite alternate}
+.lg-orb.o3{width:46vmax;height:46vmax;left:8vw;bottom:-18vmax;background:radial-gradient(circle,#F5A623 0%,transparent 62%);opacity:.1;animation:orbC 29s ease-in-out infinite alternate}
+.lg-orb.o4{width:34vmax;height:34vmax;right:12vw;top:-10vmax;background:radial-gradient(circle,#d946ef 0%,transparent 65%);opacity:.1;animation:orbA 36s ease-in-out infinite alternate-reverse}
+.lg-grain{position:absolute;inset:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 @keyframes orbA{to{transform:translate(14vw,18vh) scale(1.15)}}
 @keyframes orbB{to{transform:translate(-18vw,-12vh) scale(.9)}}
 @keyframes orbC{to{transform:translate(20vw,-16vh) scale(1.1)}}
@@ -298,20 +298,20 @@ nav{position:sticky}
 .stat-pill::after,.proof-card::after,.video-card::after,.testi-card::after,.learn-list li::after,.for-card::after,.slots-inner::after,.om-card::after,.admin-box::after,nav::after{
   content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
   background:
-    radial-gradient(420px circle at var(--mx,30%) var(--my,-20%),rgba(255,255,255,.14),transparent 45%),
-    linear-gradient(160deg,rgba(255,255,255,.12) 0%,transparent 32%);
+    radial-gradient(420px circle at var(--mx,30%) var(--my,-20%),rgba(255,255,255,.05),transparent 45%),
+    linear-gradient(160deg,rgba(255,255,255,.04) 0%,transparent 32%);
   mix-blend-mode:screen;transition:opacity .3s;
 }
 /* Rim light – a thin bright edge that fades around the shape */
 .proof-card::before,.video-card::before,.stat-pill::before,.for-card::before,.slots-inner::before,.om-card::before{
   content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;z-index:3;
-  background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(255,255,255,.04) 35%,rgba(255,255,255,0) 60%,rgba(255,255,255,.22));
+  background:linear-gradient(135deg,rgba(255,255,255,.22),rgba(255,255,255,.02) 35%,rgba(255,255,255,0) 60%,rgba(255,255,255,.08));
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
 }
 
 /* Shapes – softer, more iOS */
 .ticker-bar{border-width:0 0 1px;border-radius:0;box-shadow:inset 0 -1px 0 rgba(255,255,255,.06)}
-nav{top:10px;margin:10px 12px 0;border-radius:22px;padding:12px 14px 12px 20px;background:linear-gradient(135deg,rgba(20,18,40,.55),rgba(20,18,40,.32))}
+nav{top:10px;margin:10px 12px 0;border-radius:22px;padding:12px 14px 12px 20px;background:linear-gradient(135deg,rgba(14,14,24,.82),rgba(14,14,24,.7))}
 .stat-pill{border-radius:20px;padding:14px 20px}
 .proof-card,.video-card{border-radius:28px}
 .proof-card-header,.proof-card-footer,.video-caption-top{border-color:rgba(255,255,255,.08)}
@@ -338,11 +338,11 @@ nav{top:10px;margin:10px 12px 0;border-radius:22px;padding:12px 14px 12px 20px;b
 .nav-cta,.admin-save{background:linear-gradient(135deg,rgba(124,116,255,.9),rgba(79,70,229,.8));border-radius:999px}
 .cta-btn::before,.float-btn::before,.nav-cta::before,.om-cta::before,.admin-save::before{
   content:"";position:absolute;left:6%;right:6%;top:2px;height:48%;border-radius:999px;z-index:-1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,0));opacity:.55;
+  background:linear-gradient(180deg,rgba(255,255,255,.4),rgba(255,255,255,0));opacity:.35;
 }
 .cta-btn::after,.float-btn::after,.om-cta::after{
   content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;z-index:-1;pointer-events:none;
-  background:linear-gradient(105deg,transparent,rgba(255,255,255,.45),transparent);transform:skewX(-18deg);
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-18deg);
   animation:lgShine 4.5s ease-in-out infinite;
 }
 .cta-btn,.nav-cta,.om-cta,.admin-save{position:relative}
@@ -362,12 +362,12 @@ nav{top:10px;margin:10px 12px 0;border-radius:22px;padding:12px 14px 12px 20px;b
 
 /* Modal & admin as frosted sheets */
 #offer-modal{background:rgba(4,4,10,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.om-card{background:linear-gradient(170deg,rgba(40,36,80,.6),rgba(12,12,24,.72));border-radius:30px 30px 0 0}
+.om-card{background:linear-gradient(170deg,rgba(22,20,40,.85),rgba(10,10,18,.9));border-radius:30px 30px 0 0}
 @media(min-width:640px){.om-card{border-radius:30px}}
 .om-foot{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.08)}
 .om-check{border-radius:7px}
 #admin-panel{background:rgba(0,0,0,.5);backdrop-filter:blur(12px)}
-.admin-box{background:linear-gradient(170deg,rgba(40,36,80,.6),rgba(12,12,24,.75));border-radius:28px}
+.admin-box{background:linear-gradient(170deg,rgba(22,20,40,.85),rgba(10,10,18,.9));border-radius:28px}
 .admin-box input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:14px;box-shadow:inset 0 1px 3px rgba(0,0,0,.3)}
 
 /* Fallbacks */
