@@ -865,14 +865,14 @@ document.getElementById('om-form').addEventListener('submit', async function(e){
     if (!r.ok) throw new Error(r.error || 'Please try again.');
     try { fbq('track', 'Lead'); fbq('track', 'CompleteRegistration'); } catch (x) {}
     let pid = ''; try { pid = await personalId(phone, email); } catch (z) {}
-    showDone(name.split(/\s+/)[0], name, pid);
+    showDone(name.split(/\s+/)[0], name, pid, email);
   } catch (x) {
     btn.disabled = false; btn.textContent = '⚡ Reserve My Free Seat';
     err.textContent = x.message && x.message !== 'Failed to fetch' ? x.message : 'Network problem — please check your data and try again.';
   }
 });
 
-function showDone(first, fullName, pid){
+function showDone(first, fullName, pid, email){
   let classBtn = '';
   if (classLink) {
     const u = new URL(classLink);
@@ -885,7 +885,8 @@ function showDone(first, fullName, pid){
       '<div class="om-kicker">Seat reserved ✓</div>' +
       '<h3 class="om-title">You\'re In, <em>' + esc(first) + '</em>!</h3>' +
       '<div class="om-when">' + esc(whenText) + '</div>' +
-      '<p class="om-sub">Your joining link is coming by <b>SMS</b>' + ' and <b>email</b>. We\'ll remind you the day before and 1 hour before we go live.</p>' +
+      '<p class="om-sub">' + (email ? 'We just emailed your joining link to <b>' + esc(email) + '</b> (check Primary, Promotions and Spam). ' : '') +
+        'We\'ll also remind you by <b>SMS</b> the day before and 1 hour before we go live.</p>' +
       '<div class="om-actions">' +
         '<a class="om-cta" href="' + googleCalLink() + '" target="_blank" rel="noopener">📅 Add To My Calendar</a>' +
         '<a class="om-btn2" href="' + icsLink() + '" download="eem26-training.ics">Apple / Outlook calendar</a>' +
