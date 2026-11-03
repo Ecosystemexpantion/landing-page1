@@ -146,15 +146,19 @@ document.getElementById('form').addEventListener('submit', async function(e){
     if (!r.ok) throw new Error(r.error || 'Please try again.');
     track('Lead'); track('CompleteRegistration');
     let pid = ''; try { pid = await personalId(phone, email); } catch (z) {}
-    done(name.split(/\s+/)[0], name, pid, email);
+    done(name.split(/\s+/)[0], name, pid, email, phone);
   } catch (x) {
     btn.disabled = false; btn.textContent = '⚡ Reserve My Free Seat';
     err.textContent = x.message && x.message !== 'Failed to fetch' ? x.message : 'Network problem — please check your data and try again.';
   }
 });
 
-function done(first, fullName, pid, email){
+function done(first, fullName, pid, email, phone){
   const title = page ? page.title : 'Free training';
+  // "Get my link in my inbox": the lead sends a one-tap email; our reply with the link then lands in their inbox.
+  const ask = page && page.reply_to ? 'mailto:' + page.reply_to + '?subject=' + encodeURIComponent('Send my link - ' + title) +
+    '&body=' + encodeURIComponent('Hi, please send me my joining link.\n\nName: ' + fullName + '\nPhone: ' + (phone || '')) : '';
+  const askBtn = ask ? '<a class="btn" href="' + esc(ask) + '">📩 Get My Link In My Inbox</a>' : '';
   let cal = '';
   if (page && page.event_at) {
     const start = new Date(page.event_at), end = new Date(start.getTime() + 90 * 60000);
@@ -168,7 +172,7 @@ function done(first, fullName, pid, email){
       'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Starts in 1 hour','TRIGGER:-PT60M','END:VALARM',
       'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Starts in 10 minutes','TRIGGER:-PT10M','END:VALARM',
       'END:VEVENT','END:VCALENDAR'].join('\r\n');
-    cal = '<a class="btn" href="' + g + '" target="_blank" rel="noopener">📅 Add To My Calendar</a>' +
+    cal = '<a class="' + (ask ? 'btn2' : 'btn') + '" href="' + g + '" target="_blank" rel="noopener">📅 Add To My Calendar</a>' +
       '<a class="btn2" href="data:text/calendar;charset=utf-8,' + encodeURIComponent(ics) + '" download="invite.ics">Apple / Outlook calendar</a>';
   }
   // EEM26 Classroom: push reminders (1 day, 1 hour, 10 min, "live now") that open the class with their name filled in.
@@ -185,10 +189,11 @@ function done(first, fullName, pid, email){
     '<div class="status"><span class="dot"></span><span>Seat reserved</span></div>' +
     '<h1>You\'re in, <em>' + esc(first) + '</em>!</h1>' +
     (page && page.event_at ? '<div class="when">' + esc(fmt(new Date(page.event_at))) + '</div>' : '') +
-    '<p class="sub">' + (email ? 'We just emailed your joining link to <b>' + esc(email) + '</b> (check Primary, Promotions and Spam). ' : '') +
-      'We\'ll also remind you by <b>SMS</b> before we start.</p>' + thanks +
-    '<div class="actions">' + cal + classBtn + community + '</div>' +
-    '<div class="steps"><b>So you don\'t miss it:</b><br>1. Add it to your calendar.<br>2. Save our number when the SMS arrives.<br>3. Check your email Promotions/Spam tab and reply “GOT IT”.</div>';
+    (ask
+      ? '<p class="sub"><b>Last step:</b> tap the button below — your email app opens with a message ready. Just tap <b>Send</b> and your joining link arrives in your inbox within a minute.</p>'
+      : '<p class="sub">' + (email ? 'We just emailed your joining link to <b>' + esc(email) + '</b> (check Primary, Promotions and Spam).' : '') + '</p>') + thanks +
+    '<div class="actions">' + askBtn + cal + classBtn + community + '</div>' +
+    '<div class="steps"><b>So you don\'t miss it:</b><br>' + (ask ? '1. Tap “Get My Link In My Inbox” and press Send.<br>2. Add it to your calendar.<br>3. Turn on class reminders on this phone.' : '1. Add it to your calendar.<br>2. Check your email (Primary, Promotions, Spam) and reply “GOT IT”.<br>3. Turn on class reminders on this phone.') + '</div>';
   window.scrollTo(0, 0);
 }
 </script>

@@ -805,7 +805,7 @@ function icsLink(){
 }
 function esc(t){ const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
-let community = '', classLink = '';
+let community = '', classLink = '', replyTo = '';
 let START = nextTraining(), END = new Date(START.getTime() + TRAINING.minutes * 60000);
 const fmtWhen = d => d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Africa/Lagos' }) + ' · ' +
   d.toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Africa/Lagos' }).toUpperCase() + ' (WAT)';
@@ -815,6 +815,7 @@ fetch(SIGNUP_API + '?action=page&page=' + PAGE_ID).then(r => r.json()).then(p =>
   if (!p.ok) return;
   if (p.community_link) community = p.community_link;
   if (p.class_link) classLink = p.class_link;
+  if (p.reply_to) replyTo = p.reply_to;
   if (p.event_at) {
     START = new Date(p.event_at);
     END = new Date(START.getTime() + (p.duration_min || TRAINING.minutes) * 60000);
@@ -866,14 +867,24 @@ document.getElementById('om-form').addEventListener('submit', async function(e){
     if (!r.ok) throw new Error(r.error || 'Please try again.');
     try { fbq('track', 'Lead'); fbq('track', 'CompleteRegistration'); } catch (x) {}
     let pid = ''; try { pid = await personalId(phone, email); } catch (z) {}
-    showDone(name.split(/\s+/)[0], name, pid, email);
+    showDone(name.split(/\s+/)[0], name, pid, email, phone);
   } catch (x) {
     btn.disabled = false; btn.textContent = '⚡ Reserve My Free Seat';
     err.textContent = x.message && x.message !== 'Failed to fetch' ? x.message : 'Network problem — please check your data and try again.';
   }
 });
 
-function showDone(first, fullName, pid, email){
+// "Get my link in my inbox": the lead sends us a one-tap email, and the reply with their link lands in their inbox
+// (Gmail trusts replies to mail you wrote yourself, and from then on treats us as a known contact).
+function linkRequestHref(fullName, phone){
+  if (!replyTo) return '';
+  const subject = 'Send my link - ' + TRAINING.title;
+  const body = 'Hi, please send me my joining link.\n\nName: ' + fullName + '\nPhone: ' + phone;
+  return 'mailto:' + replyTo + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+}
+
+function showDone(first, fullName, pid, email, phone){
+  const ask = linkRequestHref(fullName, phone || '');
   let classBtn = '';
   if (classLink) {
     const u = new URL(classLink);
@@ -886,15 +897,17 @@ function showDone(first, fullName, pid, email){
       '<div class="om-kicker">Seat reserved ✓</div>' +
       '<h3 class="om-title">You\'re In, <em>' + esc(first) + '</em>!</h3>' +
       '<div class="om-when">' + esc(whenText) + '</div>' +
-      '<p class="om-sub">' + (email ? 'We just emailed your joining link to <b>' + esc(email) + '</b> (check Primary, Promotions and Spam). ' : '') +
-        'We\'ll also remind you by <b>SMS</b> the day before and 1 hour before we go live.</p>' +
+      (ask
+        ? '<p class="om-sub"><b>Last step:</b> tap the button below — your email app opens with a message ready. Just tap <b>Send</b> and your joining link arrives in your inbox within a minute.</p>'
+        : '<p class="om-sub">' + (email ? 'We just emailed your joining link to <b>' + esc(email) + '</b> (check Primary, Promotions and Spam). ' : '') + '</p>') +
       '<div class="om-actions">' +
-        '<a class="om-cta" href="' + googleCalLink() + '" target="_blank" rel="noopener">📅 Add To My Calendar</a>' +
+        (ask ? '<a class="om-cta" href="' + esc(ask) + '">📩 Get My Link In My Inbox</a>' : '') +
+        '<a class="' + (ask ? 'om-btn2' : 'om-cta') + '" href="' + googleCalLink() + '" target="_blank" rel="noopener">📅 Add To My Calendar</a>' +
         '<a class="om-btn2" href="' + icsLink() + '" download="eem26-training.ics">Apple / Outlook calendar</a>' +
         classBtn +
         (community ? '<a class="om-btn2" href="' + esc(community) + '" target="_blank" rel="noopener">Join our updates channel</a>' : '') +
       '</div>' +
-      '<div class="om-steps"><b>Do these now so you don\'t miss it:</b><br>1. Add it to your calendar (button above).<br>2. Save our SMS number when the confirmation arrives.<br>3. Check your email Promotions/Spam tab and reply “GOT IT”.</div>' +
+      '<div class="om-steps"><b>Do these now so you don\'t miss it:</b><br>' + (ask ? '1. Tap “Get My Link In My Inbox” and press Send.<br>2. Add it to your calendar.<br>3. Turn on class reminders on this phone.' : '1. Add it to your calendar (button above).<br>2. Check your email (Primary, Promotions, Spam) and reply “GOT IT”.<br>3. Turn on class reminders on this phone.') + '</div>' +
     '</div>';
 }
 
