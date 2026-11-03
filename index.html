@@ -456,7 +456,7 @@ footer p+p{margin-top:10px}
     </div>
     <ol class="steps rv">
       <li data-n="1"><h3>Reserve your free seat</h3><p>Tap any “Join” button and enter your name, phone number and email. It takes about 20 seconds.</p></li>
-      <li data-n="2"><h3>Claim your free gift</h3><p>Right after you register, tap one button to get your gift and your joining link sent to your inbox.</p></li>
+      <li data-n="2"><h3>Claim your free gift</h3><p>Right after you register, tap one button to get your joining link in your inbox. Reply “Got it” and your gift comes straight after.</p></li>
       <li data-n="3"><h3>Join live at 8:00 PM WAT</h3><p>Open the link from your phone on Sunday and follow along, step by step.</p></li>
     </ol>
   </div>
@@ -747,9 +747,9 @@ document.getElementById('om-form').addEventListener('submit', async function(e){
 
 // "Get my link in my inbox": the lead sends us a one-tap email, and the reply with their link lands in their inbox
 // (Gmail trusts replies to mail you wrote yourself, and from then on treats us as a known contact).
-// What the thank-you screen offers. Put the gift's link in this page's thank-you message in the OmniReach app:
-// that message is included in the reply email people get after tapping "Send me my gift".
-const GIFT = { name: 'My step-by-step Selar setup guide', detail: 'The same guide our students use to set up their store and AI assistant.' };
+// What the thank-you screen offers. The gift itself (gift/selar.html) is emailed by the server when they reply
+// "Got it" to their joining-link email, which also keeps our later emails out of spam.
+const GIFT = { name: 'My step-by-step Selar setup guide', detail: 'How to open your free Selar creator account and publish your first product, from your phone.' };
 function linkRequestHref(fullName, phone){
   if (!replyTo) return '';
   const subject = 'Send my gift and my link - ' + TRAINING.title;
@@ -778,7 +778,7 @@ function showDone(first, fullName, pid, email, phone){
       '<h3 class="om-title">' + esc(first) + ', <em>I have a gift for you.</em></h3>' +
       (ask
         ? '<p class="om-sub">Your seat for ' + esc(whenText) + ' is saved. Before then, I want you to have this:</p>' + giftBox +
-          '<p class="om-sub">Tap the button below. Your email app opens with a short message to me. <b>Press Send</b> and I\'ll reply within a minute with your gift and your joining link.</p>' +
+          '<p class="om-sub">Tap the button below. Your email app opens with a short message to me. <b>Press Send</b> and I\'ll reply within a minute with your joining link. Then reply <b>“Got it”</b> to that email and your gift comes straight after.</p>' +
           '<div class="om-actions"><a class="btn btn-block" id="gift-btn" href="' + esc(ask) + '">Send me my gift</a></div>'
         : '<p class="om-sub">Your seat for Sunday is saved. ' + (email ? 'Your joining link is on its way to <b>' + esc(email) + '</b>. Check Primary, Promotions and Spam.' : 'We\'ll send your joining link by SMS before the session starts.') + '</p>') +
       '<div class="om-actions om-more">' +
