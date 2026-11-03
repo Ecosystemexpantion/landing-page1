@@ -177,6 +177,8 @@ h1 em,h2 em{font-style:italic;font-weight:400;color:var(--accent)}
 .story p{font-size:16px;color:var(--ink-2)}
 .story blockquote{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.4;color:var(--ink);margin-top:14px;padding-left:14px;border-left:2px solid var(--marigold);font-variation-settings:"opsz" 36}
 .shots{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:18px 22px 22px}
+.shots-1{grid-template-columns:1fr}
+.shots-1 .shot img{aspect-ratio:4/3}
 .shot{position:relative;display:block;border:1px solid var(--rule-2);border-radius:8px;overflow:hidden;background:#fff;cursor:zoom-in;padding:0;-webkit-tap-highlight-color:transparent}
 .shot img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top}
 .shot::after{content:"Tap to view";position:absolute;right:8px;bottom:8px;font:500 11px/1 var(--sans);background:rgba(23,21,15,.72);color:#fff;padding:5px 7px;border-radius:4px}
@@ -478,8 +480,7 @@ footer p+p{margin-top:10px}
           <p>Halima almost didn't click the ad. She'd seen too many courses that promised a lot and delivered nothing. She set up her store step by step, and made her first sales by the end of week three.</p>
           <blockquote>“I just wanted you to see what your training did for me.”</blockquote>
         </div>
-        <div class="shots">
-          <button class="shot" type="button" data-full="img/halima-1.webp"><img src="img/halima-1.webp" width="720" height="1231" loading="lazy" alt="Halima's WhatsApp message to her coach with a screenshot of her Selar wallet"></button>
+        <div class="shots shots-1">
           <button class="shot" type="button" data-full="img/halima-2.webp"><img src="img/halima-2.webp" width="720" height="938" loading="lazy" alt="Halima's Selar dashboard showing total sales volume by currency"></button>
         </div>
         <div class="story-foot"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Selar dashboard · sent directly to EEM26</div>
