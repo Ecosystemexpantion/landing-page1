@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get OmniReach</title>
+<style>
+:root{--bg:#07070c;--card:rgba(22,20,40,.9);--text:#f2f2f8;--muted:#a8a8c0;--gold:#F5A623}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;background:radial-gradient(900px 500px at 0% -10%,rgba(245,166,35,.15),transparent 60%),var(--bg);color:var(--text);font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.card{max-width:440px;width:100%;background:var(--card);border:1px solid rgba(255,255,255,.1);border-radius:24px;padding:28px 22px}
+h1{font-size:1.7rem;margin-bottom:8px}
+p{color:var(--muted);line-height:1.6;margin-bottom:16px}
+.btn{display:block;text-align:center;padding:17px;border-radius:999px;background:linear-gradient(135deg,#34d371,#16a34a);color:#fff;font-weight:800;text-decoration:none;font-size:1.05rem;margin-bottom:18px}
+ol{padding-left:20px;color:#d4d4e8;line-height:1.75;font-size:.95rem}
+.note{font-size:.8rem;color:#7a7a9a;margin-top:16px}
+.invite{display:none;margin:0 0 18px;padding:14px;border-radius:16px;background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.35)}
+.invite b{font-size:1.4rem;letter-spacing:1px;color:#FFD700}
+.btn2{display:block;text-align:center;padding:14px;border-radius:999px;border:1px solid rgba(255,255,255,.2);color:#fff;text-decoration:none;font-weight:800;margin-top:10px}
+</style>
+</head>
+<body>
+<main class="card">
+  <h1>OmniReach</h1>
+  <p>Your landing pages, leads, SMS &amp; email reminders and webinars in one free Android app.</p>
+  <div class="invite" id="invite">
+    <div>Your invite code</div>
+    <b id="code"></b>
+    <a class="btn2" id="open" href="#">Already installed? Open OmniReach</a>
+  </div>
+  <a class="btn" id="download" href="OmniReach-1.0.18.apk" download>⬇ Download the app (Android) · v1.0.18</a>
+  <ol>
+    <li>Tap the button above and open the downloaded file.</li>
+    <li>If asked, allow your browser to "Install unknown apps", then tap <b>Install</b>.</li>
+    <li id="step3">Open OmniReach → <b>🌐 Pages</b> → <b>Join</b>, and enter the invite code your coach gave you.</li>
+  </ol>
+  <p class="note">Android only. Updates install over the old version and keep your data.</p>
+</main>
+<script>
+// Invite links look like …/app/?code=XXXX: show the code and offer to open the app with it filled in.
+var code = (new URLSearchParams(location.search).get('code') || '').trim().slice(0, 40);
+if (code) {
+  document.getElementById('invite').style.display = 'block';
+  document.getElementById('code').textContent = code;
+  document.getElementById('open').href = 'omnireach://join?code=' + encodeURIComponent(code);
+  document.getElementById('step3').innerHTML = 'Open OmniReach (or tap <b>Open OmniReach</b> above) → <b>🌐 Pages</b> → <b>Join</b>. Your code <b></b> is filled in for you.';
+  document.querySelector('#step3 b:last-child').textContent = code;
+}
+</script>
+</body>
+</html>

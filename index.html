@@ -264,31 +264,27 @@ footer p+p{margin-top:10px}
 .om-title{font-family:var(--serif);font-size:28px;line-height:1.1;font-weight:600;letter-spacing:-.02em;margin-bottom:10px;padding-right:30px}
 .om-title em{font-style:italic;font-weight:400;color:var(--accent)}
 .om-sub{font-size:16px;color:var(--ink-2);margin-bottom:18px}
-.om-list{list-style:none;border-top:1px solid var(--rule);margin-bottom:22px}
-.om-list li{display:grid;grid-template-columns:22px 1fr;gap:10px;padding:12px 0;border-bottom:1px solid var(--rule-2);font-size:15px}
-.om-list svg{color:var(--accent);margin-top:3px}
 .om-caption{text-align:center;margin-top:12px;font-size:14px;color:var(--ink-2)}
-.om-count{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
-.om-progress{height:3px;background:var(--rule-2);border-radius:3px;margin-top:14px;overflow:hidden}
-.om-progress-fill{height:100%;background:var(--accent);transform-origin:left;width:100%}
-#offer-modal.open .om-progress-fill{animation:drain 30s linear forwards}
-@keyframes drain{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 
-/* admin */
-#admin-panel{display:none;position:fixed;inset:0;z-index:500;background:rgba(23,21,15,.7);align-items:center;justify-content:center}
-#admin-panel.open{display:flex}
-.admin-box{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:30px 24px;width:90%;max-width:440px}
-.admin-box h3{margin-bottom:6px}
-.admin-box p{font-size:15px;color:var(--ink-2);margin-bottom:18px}
-.admin-box label{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);display:block;margin-bottom:8px}
-.admin-box input{width:100%;background:#fff;border:1px solid var(--rule);border-radius:6px;color:var(--ink);font:16px var(--sans);padding:13px 14px;margin-bottom:14px;outline:none}
-.admin-box input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-tint)}
-.admin-save{width:100%;background:var(--accent);color:#fff;border:0;font:600 16px var(--sans);padding:15px;border-radius:6px;cursor:pointer}
-.admin-close{width:100%;background:transparent;color:var(--ink-3);border:0;font:15px var(--sans);padding:12px;cursor:pointer;margin-top:4px}
-.admin-status{font-size:14px;text-align:center;min-height:20px;margin-top:6px;font-weight:600}
-#pwd-screen{display:flex;flex-direction:column}
-#main-admin{display:none;flex-direction:column}
-#secret-zone{position:fixed;bottom:0;left:0;width:44px;height:44px;z-index:299;opacity:0;-webkit-tap-highlight-color:transparent}
+/* signup form */
+.om-form{display:grid;gap:12px}
+.om-field{display:grid;gap:6px}
+.om-field span{font-size:13px;font-weight:600;color:var(--ink-2)}
+.om-field small{font-weight:400;color:var(--ink-3)}
+.om-field input{width:100%;background:#fff;border:1px solid var(--rule);border-radius:6px;color:var(--ink);font:16px var(--sans);padding:14px;outline:none;transition:border-color .15s,box-shadow .15s}
+.om-field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-tint)}
+.om-form .btn{margin-top:6px}
+.om-form .btn[disabled]{opacity:.7;cursor:wait}
+.om-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.om-error{min-height:1.2em;color:#B42318;font-size:14px;text-align:center}
+.om-caption{display:flex;align-items:center;justify-content:center;gap:6px}
+.om-tick{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center}
+.om-tick svg{width:13px;height:13px}
+.om-when{display:inline-block;margin:2px 0 16px;padding:8px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);font-weight:600;font-size:15px}
+.om-actions{display:grid;gap:10px;margin:4px 0 18px}
+.om-steps{font-size:15px;color:var(--ink-2);border-top:1px solid var(--rule);padding-top:14px}
+.om-steps b{color:var(--ink);display:block;margin-bottom:6px}
+.om-steps ol{padding-left:20px;display:grid;gap:4px}
 
 /* desktop */
 @media(min-width:880px){
@@ -319,49 +315,24 @@ footer p+p{margin-top:10px}
 </head>
 <body>
 
-<!-- SECRET ZONE & ADMIN -->
-<div id="secret-zone"></div>
-<div id="admin-panel">
-  <div class="admin-box">
-    <div id="pwd-screen">
-      <h3>Admin access</h3>
-      <p>Enter your password to update the group link.</p>
-      <label for="pwd-input">Password</label>
-      <input type="password" id="pwd-input" placeholder="Enter password">
-      <button class="admin-save" onclick="checkPwd()">Unlock</button>
-      <button class="admin-close" onclick="closeAdmin()">Cancel</button>
-      <div class="admin-status" id="pwd-status"></div>
-    </div>
-    <div id="main-admin">
-      <h3>Update link</h3>
-      <p>Paste the new group link. It updates on every device straight away.</p>
-      <label for="wa-input">New group link</label>
-      <input type="url" id="wa-input" placeholder="https://...">
-      <button class="admin-save" onclick="saveLink()">Save and update for everyone</button>
-      <button class="admin-close" onclick="closeAdmin()">Close</button>
-      <div class="admin-status" id="save-status"></div>
-    </div>
-  </div>
-</div>
-
-<!-- OFFER SHEET -->
+<!-- SIGNUP SHEET -->
 <div id="offer-modal" role="dialog" aria-modal="true" aria-labelledby="om-title">
   <div class="om-card">
-    <button class="om-close" id="om-close" aria-label="Close">&times;</button>
-    <div class="om-step"><span class="dot"></span><span class="label">Last step · Sunday 8:00 PM WAT</span></div>
-    <h3 class="om-title" id="om-title">You're about to join the <em>EEM26 group</em> on WhatsApp.</h3>
-    <p class="om-sub">Tap <b>Join group</b> when WhatsApp opens. Inside, you'll get:</p>
-    <ul class="om-list">
-      <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>The link to Sunday's live session, plus reminders before it starts</span></li>
-      <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>A free step-by-step guide to setting up your Selar store</span></li>
-      <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>The signup links our students use to get started</span></li>
-    </ul>
-    <a href="#" id="om-cta" class="btn btn-block" target="_blank" rel="noopener">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.6-.92-2.2-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35zM12.05 21.8h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.82 9.82 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88zm8.41-18.3A11.81 11.81 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.48-8.41z"/></svg>
-      Continue to WhatsApp
-    </a>
-    <p class="om-caption">Opening automatically in <span class="om-count" id="om-count">30</span>s</p>
-    <div class="om-progress"><div class="om-progress-fill"></div></div>
+    <button type="button" class="om-close" id="om-close" aria-label="Close">&times;</button>
+    <div id="om-body">
+      <div class="om-step"><span class="dot"></span><span class="label" id="om-when-label">Free · Sunday 8:00 PM WAT</span></div>
+      <h3 class="om-title" id="om-title">Reserve your <em>free seat.</em></h3>
+      <p class="om-sub">Enter your details and we'll send your joining link and reminders by SMS and email. No group to join, no payment.</p>
+      <form id="om-form" class="om-form" novalidate>
+        <label class="om-field"><span>Full name</span><input name="name" autocomplete="name" required></label>
+        <label class="om-field"><span>Phone number</span><input name="phone" type="tel" placeholder="e.g. 0803 123 4567" autocomplete="tel" inputmode="tel" required></label>
+        <label class="om-field"><span>Email <small>(for the calendar invite)</small></span><input name="email" type="email" autocomplete="email" inputmode="email"></label>
+        <input name="website" class="om-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit" class="btn btn-block" id="om-submit">Reserve my free seat</button>
+        <p class="om-error" id="om-error" role="alert"></p>
+      </form>
+      <p class="om-caption"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>We only use your details to send your training link and reminders.</p>
+    </div>
   </div>
 </div>
 
@@ -375,7 +346,7 @@ footer p+p{margin-top:10px}
 <header class="topbar">
   <div class="wrap">
     <div class="brand" id="nav-logo">EEM26 <small>Ecosystem Expansion Model</small></div>
-    <a href="https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2" class="btn wa-link" target="_blank" rel="noopener">Save my free seat</a>
+    <a href="#register" class="btn reg">Save my free seat</a>
   </div>
 </header>
 
@@ -388,30 +359,25 @@ footer p+p{margin-top:10px}
       <h1>Build a digital product business on Selar, <em>with AI doing the heavy work.</em></h1>
       <p class="lede">In one live evening, see the exact setup EEM26 students use: how Selar works, what to sell when you're starting from zero, and the AI tools that write your product pages and reply to customers. You only need your phone.</p>
       <div class="hero-actions">
-        <a href="https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2" class="btn btn-block wa-link" id="hero-cta" target="_blank" rel="noopener">
+        <a href="#register" class="btn btn-block reg" id="hero-cta">
           Join the free training
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
         <div class="cta-meta">
           <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Free to attend</span>
           <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No card needed</span>
-          <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Join via WhatsApp</span>
+          <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Link sent by SMS and email</span>
         </div>
       </div>
 
       <div class="ticket" aria-label="Training date">
         <div class="ticket-top">
-          <div class="ticket-when"><small class="label" id="t-date">This Sunday</small>8:00 PM WAT<span>Live online · join from your phone</span></div>
+          <div class="ticket-when"><small class="label" id="t-date">This Sunday</small><b id="t-time" style="font-weight:inherit">8:00 PM WAT</b><span>Live online · join from your phone</span></div>
           <div class="stamp">FREE</div>
         </div>
         <div class="ticket-cut"></div>
         <div class="ticket-bottom">
-          <div class="countdown" id="countdown" aria-live="polite">
-            <div><b id="cd-d">0</b><small>Days</small></div>
-            <div><b id="cd-h">00</b><small>Hrs</small></div>
-            <div><b id="cd-m">00</b><small>Min</small></div>
-            <div><b id="cd-s">00</b><small>Sec</small></div>
-          </div>
+          <div class="countdown" id="countdown" aria-live="off"></div>
           <a class="cal-link" id="cal-link" href="#" target="_blank" rel="noopener">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M12 14v4M10 16h4"/></svg>
             Add to calendar
@@ -494,8 +460,8 @@ footer p+p{margin-top:10px}
       <h2>Three steps to <em>Sunday night.</em></h2>
     </div>
     <ol class="steps rv">
-      <li data-n="1"><h3>Join the WhatsApp group</h3><p>Tap any “Join” button on this page. It opens the free EEM26 group on WhatsApp.</p></li>
-      <li data-n="2"><h3>Get the session link and reminders</h3><p>We share the link to the live session in the group, with reminders before it starts.</p></li>
+      <li data-n="1"><h3>Reserve your free seat</h3><p>Tap any “Join” button and enter your name, phone number and email. It takes about 20 seconds.</p></li>
+      <li data-n="2"><h3>Get your link and reminders</h3><p>We send your joining link and reminders by SMS and email, and you can add the session to your calendar.</p></li>
       <li data-n="3"><h3>Join live at 8:00 PM WAT</h3><p>Open the link from your phone on Sunday and follow along, step by step.</p></li>
     </ol>
   </div>
@@ -627,9 +593,9 @@ footer p+p{margin-top:10px}
     </div>
     <div class="faq rv">
       <details><summary>Is the training really free?<i></i></summary><p>Yes. Attending costs nothing and you won't be asked for card details. EEM26 also offers a paid, done-with-you setup called the Premium Tech Stack. We'll explain it at the end for anyone who wants extra help. It's completely optional.</p></details>
-      <details><summary>What do I need?<i></i></summary><p>A phone with WhatsApp and enough data for a live video session. You don't need a laptop.</p></details>
+      <details><summary>What do I need?<i></i></summary><p>A phone with enough data for a live video session. You don't need a laptop.</p></details>
       <details><summary>Do I need any experience?<i></i></summary><p>No. We start from the beginning and show every step on screen. You don't need tech skills or an existing audience to follow along.</p></details>
-      <details><summary>Where does the training happen?<i></i></summary><p>Online. After you join the WhatsApp group, we share the link to the live session there before 8:00 PM on Sunday.</p></details>
+      <details><summary>Where does the training happen?<i></i></summary><p>Online. After you reserve your seat, we send your joining link by SMS and email before 8:00 PM on Sunday. If it doesn't arrive, check your Promotions and Spam folders.</p></details>
       <details><summary>Will there be a replay?<i></i></summary><p>No. It's a live session and we don't post a replay, so plan to join on Sunday at 8:00 PM WAT.</p></details>
       <details><summary>How much will I earn?<i></i></summary><p>We can't promise any amount, and you should be careful of anyone who does. The training shows you how the setup works. What you earn afterwards depends on the work you put in, the product you choose and your market.</p></details>
     </div>
@@ -641,15 +607,15 @@ footer p+p{margin-top:10px}
   <div class="wrap narrow">
     <span class="label">Sunday · 8:00 PM WAT · Free</span>
     <h2>See the full setup <em>live this Sunday.</em></h2>
-    <p class="lede">Join the group now and we'll send you the session link and reminders. It's free, and you can follow along on your phone.</p>
-    <a href="https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2" class="btn btn-block wa-link" style="max-width:440px" target="_blank" rel="noopener">
+    <p class="lede">Reserve your seat now and we'll send your joining link and reminders. It's free, and you can follow along on your phone.</p>
+    <a href="#register" class="btn btn-block reg" style="max-width:440px">
       Join the free training
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
     </a>
     <div class="cta-meta">
       <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Free to attend</span>
       <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No card needed</span>
-      <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Join via WhatsApp</span>
+      <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Link sent by SMS and email</span>
     </div>
   </div>
 </section>
@@ -666,160 +632,184 @@ footer p+p{margin-top:10px}
 <!-- STICKY MOBILE CTA -->
 <div class="sticky" id="sticky" aria-hidden="true">
   <div class="sticky-info"><b>Sunday · 8:00 PM</b>Free live training</div>
-  <a href="https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2" class="btn wa-link" target="_blank" rel="noopener" tabindex="-1">Save my seat</a>
+  <a href="#register" class="btn reg" tabindex="-1">Save my seat</a>
 </div>
 
 <script>
-// ── CONFIG ──
-const DEFAULT_LINK   = "https://chat.whatsapp.com/ByRifhKegni8evpmIVNRC2";
-const ADMIN_PWD      = "sdda2025";
-const LS_LINK        = "eem26_wa_link";
-const SUPABASE_URL   = "https://leqizarzgfpiriknpnxw.supabase.co";
-const SUPABASE_KEY   = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlcWl6YXJ6Z2ZwaXJpa25wbnh3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNzgxNTcsImV4cCI6MjA5NTc1NDE1N30.LNSMP3LXJv_QKE9COMmm9OS5axVGqw_60m750c6bBeg";
-const CONFIG_ID      = "eem26";
+// ── SIGNUP (details go straight to the OmniReach app) ──
+const SIGNUP_API = "https://leqizarzgfpiriknpnxw.supabase.co/functions/v1/omnireach";
+// ?p=<page code> sends this page's signups to that student's OmniReach app instead of the coach's.
+const PAGE_ID    = ((new URLSearchParams(location.search).get('p') || '').replace(/[^a-z0-9]/gi, '') || "eem26").slice(0, 40);
+const TRAINING   = { title: "EEM26 Free Sunday Training", hour: 20, minutes: 90 }; // 8:00PM WAT
 
-function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
-function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
-
-// ── FETCH LINK FROM SUPABASE OR FALLBACK ──
-async function getLink(){
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/site_config?id=eq.${CONFIG_ID}&select=wa_link`,{
-      headers:{ apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
-    });
-    const data = await res.json();
-    const link = Array.isArray(data) && data[0] && data[0].wa_link;
-    if(link){ lsSet(LS_LINK,link); return link; }
-  } catch(e){}
-  return lsGet(LS_LINK) || DEFAULT_LINK;
+// Next Sunday 8:00PM Lagos time (UTC+1); after 9:30PM on Sunday it rolls to the following week.
+function nextTraining(){
+  const now = new Date();
+  const lagos = new Date(now.getTime() + 3600000);
+  const d = new Date(Date.UTC(lagos.getUTCFullYear(), lagos.getUTCMonth(), lagos.getUTCDate(), TRAINING.hour - 1, 0, 0));
+  let add = (7 - lagos.getUTCDay()) % 7;
+  if (add === 0 && now.getTime() > d.getTime() + TRAINING.minutes * 60000) add = 7;
+  return new Date(d.getTime() + add * 86400000);
 }
-
-// ── APPLY LINK TO ALL BUTTONS ──
-function setButtons(link){
-  document.querySelectorAll(".wa-link").forEach(el => el.href = link);
-  const inp = document.getElementById("wa-input");
-  if(inp) inp.value = link;
+function stamp(d){ return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
+function googleCalLink(){
+  const q = new URLSearchParams({
+    action: 'TEMPLATE', text: TRAINING.title, dates: stamp(START) + '/' + stamp(END),
+    details: 'Free live training. Your joining link is sent by SMS/email before we start.', ctz: 'Africa/Lagos'
+  });
+  return 'https://calendar.google.com/calendar/render?' + q.toString();
 }
-
-async function applyLink(){
-  const instant = lsGet(LS_LINK) || DEFAULT_LINK;
-  setButtons(instant);
-  try {
-    const cloudLink = await getLink();
-    if(cloudLink && cloudLink !== instant) setButtons(cloudLink);
-  } catch(e){}
+function icsLink(){
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//EEM26//Training//EN','BEGIN:VEVENT',
+    'UID:eem26-' + stamp(START) + '@eem26','DTSTAMP:' + stamp(new Date()),'DTSTART:' + stamp(START),'DTEND:' + stamp(END),
+    'SUMMARY:' + TRAINING.title,'DESCRIPTION:Free live training. Your joining link is sent by SMS/email before we start.',
+    'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Training starts in 1 hour','TRIGGER:-PT60M','END:VALARM',
+    'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Training starts in 10 minutes','TRIGGER:-PT10M','END:VALARM',
+    'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
 }
+function esc(t){ const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
-// ── ADMIN ──
-function openAdmin(){
-  document.getElementById("admin-panel").classList.add("open");
-  document.getElementById("pwd-screen").style.display = "flex";
-  document.getElementById("main-admin").style.display  = "none";
-  document.getElementById("pwd-status").textContent    = "";
-  document.getElementById("pwd-input").value           = "";
-  setTimeout(()=>document.getElementById("pwd-input").focus(),100);
-}
-function closeAdmin(){ document.getElementById("admin-panel").classList.remove("open"); }
+let community = '', classLink = '', replyTo = '';
+let START = nextTraining(), END = new Date(START.getTime() + TRAINING.minutes * 60000);
+const fmtWhen = d => d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Africa/Lagos' }) + ' · ' +
+  d.toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Africa/Lagos' }).toUpperCase() + ' (WAT)';
+let whenText = fmtWhen(START);
 
-function checkPwd(){
-  const val = document.getElementById("pwd-input").value;
-  if(val === ADMIN_PWD){
-    document.getElementById("pwd-screen").style.display = "none";
-    document.getElementById("main-admin").style.display = "flex";
-    getLink().then(l => { document.getElementById("wa-input").value = l; });
-    setTimeout(()=>document.getElementById("wa-input").focus(),100);
-  } else {
-    document.getElementById("pwd-status").textContent = "Incorrect password";
-    document.getElementById("pwd-status").style.color = "#B42318";
-  }
-}
-
-async function saveLink(){
-  const val = document.getElementById("wa-input").value.trim();
-  const st  = document.getElementById("save-status");
-  if(!val.startsWith("http")){
-    st.textContent = "Please enter a valid link"; st.style.color = "#B42318";
-    return;
-  }
-  st.textContent = "Updating for all devices..."; st.style.color = "#5A5346";
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/update_wa_link`,{
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json",
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`
-      },
-      body: JSON.stringify({ p_id: CONFIG_ID, p_link: val, p_pwd: ADMIN_PWD })
-    });
-    if(res.ok){
-      lsSet(LS_LINK,val);
-      setButtons(val);
-      st.textContent = "Updated for all devices"; st.style.color = "#0E5A3A";
-      setTimeout(closeAdmin,1800);
-      return;
-    }
-  } catch(e){}
-  st.textContent = "Cloud save failed"; st.style.color = "#B42318";
-}
-
-// ── SECRET ADMIN TRIGGERS ──
-document.addEventListener("keydown",function(e){
-  if(e.ctrlKey && e.shiftKey && (e.key==="A"||e.key==="a")){ e.preventDefault(); openAdmin(); }
-});
-let tapCount=0,tapTimer=null;
-document.getElementById("secret-zone").addEventListener("touchstart",function(e){
-  e.preventDefault();
-  tapCount++;
-  if(tapTimer) clearTimeout(tapTimer);
-  tapTimer = setTimeout(()=>{ tapCount=0; },3000);
-  if(tapCount>=5){ tapCount=0; clearTimeout(tapTimer); openAdmin(); }
-},{passive:false});
-document.getElementById("admin-panel").addEventListener("click",function(e){
-  if(e.target===this) closeAdmin();
-});
-document.getElementById("pwd-input").addEventListener("keydown",e=>{
-  if(e.key==="Enter") checkPwd();
-});
-
-// ── NEXT SESSION: Sunday 8:00 PM WAT (19:00 UTC) ──
-function nextSession(now){
-  const d = new Date(now);
-  const t = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), 19, 0, 0));
-  t.setUTCDate(t.getUTCDate() + ((7 - t.getUTCDay()) % 7));
-  // still "this Sunday" until 2 hours after start
-  if(now > t.getTime() + 2*3600e3) t.setUTCDate(t.getUTCDate() + 7);
-  return t;
-}
-(function(){
-  const start = nextSession(Date.now());
-  const end   = new Date(start.getTime() + 90*60e3);
-  const fmt = x => x.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
-  const dateLabel = start.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',timeZone:'Africa/Lagos'});
-  document.getElementById('t-date').textContent = dateLabel.replace(',','');
-  document.getElementById('cal-link').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
-    + '&text=' + encodeURIComponent('EEM26 Free Live Training')
-    + '&dates=' + fmt(start) + '/' + fmt(end)
-    + '&details=' + encodeURIComponent('Free live training: build a digital product business on Selar with AI. The session link is shared in the EEM26 WhatsApp group.')
-    + '&ctz=Africa/Lagos';
-  const el = { d:cd('d'), h:cd('h'), m:cd('m'), s:cd('s') };
-  function cd(k){ return document.getElementById('cd-'+k); }
-  const pad = n => String(n).padStart(2,'0');
-  function tick(){
-    const ms = start.getTime() - Date.now();
+// ── TICKET: date, countdown and calendar link follow START ──
+const pad = n => String(n).padStart(2,'0');
+let tickTimer = null;
+function renderTicket(){
+  const date = START.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',timeZone:'Africa/Lagos'}).replace(',','');
+  const time = START.toLocaleTimeString('en-GB',{hour:'numeric',minute:'2-digit',hour12:true,timeZone:'Africa/Lagos'}).toUpperCase();
+  document.getElementById('t-date').textContent = date;
+  document.getElementById('t-time').textContent = time + ' WAT';
+  document.getElementById('cal-link').href = googleCalLink();
+  const cd = document.getElementById('countdown');
+  if(!cd.dataset.built){ cd.dataset.built = 1; }
+  clearTimeout(tickTimer);
+  (function tick(){
+    const ms = START.getTime() - Date.now();
     if(ms <= 0){
-      document.getElementById('countdown').innerHTML = '<span class="live-now">Live now. Join the group to get the link.</span>';
+      cd.innerHTML = Date.now() < END.getTime()
+        ? '<span class="live-now">Live now. Reserve your seat to get the link.</span>'
+        : '<span class="live-now">Next session is being scheduled.</span>';
       return;
     }
-    const s = Math.floor(ms/1000);
-    el.d.textContent = Math.floor(s/86400);
-    el.h.textContent = pad(Math.floor(s%86400/3600));
-    el.m.textContent = pad(Math.floor(s%3600/60));
-    el.s.textContent = pad(s%60);
-    setTimeout(tick, 1000 - (Date.now()%1000));
+    const t = Math.floor(ms/1000);
+    cd.innerHTML = '<div><b>'+Math.floor(t/86400)+'</b><small>Days</small></div><div><b>'+pad(Math.floor(t%86400/3600))+'</b><small>Hrs</small></div><div><b>'+pad(Math.floor(t%3600/60))+'</b><small>Min</small></div><div><b>'+pad(t%60)+'</b><small>Sec</small></div>';
+    tickTimer = setTimeout(tick, 1000 - (Date.now()%1000));
+  })();
+}
+renderTicket();
+
+// The page follows the next class scheduled in the EEM26 Live Classroom (falls back to "next Sunday 8PM").
+fetch(SIGNUP_API + '?action=page&page=' + PAGE_ID).then(r => r.json()).then(p => {
+  if (!p.ok) return;
+  if (p.community_link) community = p.community_link;
+  if (p.class_link) classLink = p.class_link;
+  if (p.reply_to) replyTo = p.reply_to;
+  if (p.event_at) {
+    START = new Date(p.event_at);
+    END = new Date(START.getTime() + (p.duration_min || TRAINING.minutes) * 60000);
+    whenText = fmtWhen(START);
+    renderTicket();
   }
-  tick();
-})();
+}).catch(() => {});
+
+async function personalId(phone, email){
+  const digits = (phone || '').replace(/\D/g, '').slice(-10);
+  const key = digits.length >= 7 ? digits : (email || '').trim().toLowerCase();
+  if (!key) return '';
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
+  return 'or-' + Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 16);
+}
+
+function openSignup(){
+  const modal = document.getElementById('offer-modal');
+  document.getElementById('om-when-label').textContent = 'Free · ' + whenText;
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  const first = modal.querySelector('input[name="name"]');
+  if (first) setTimeout(() => first.focus(), 250);
+  try { fbq('track', 'InitiateCheckout'); } catch (e) {}
+}
+function closeSignup(){
+  document.getElementById('offer-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('om-close').addEventListener('click', closeSignup);
+document.getElementById('offer-modal').addEventListener('click', function(e){ if (e.target === this) closeSignup(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSignup(); });
+document.querySelectorAll('.reg').forEach(el => el.addEventListener('click', e => { e.preventDefault(); openSignup(); }));
+if (location.hash === '#register') openSignup();
+
+document.getElementById('om-form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const f = this, btn = document.getElementById('om-submit'), err = document.getElementById('om-error');
+  const nameInput = f.elements['name'];
+  const name = nameInput.value.trim(), phone = f.phone.value.trim(), email = f.email.value.trim();
+  err.textContent = '';
+  if (name.length < 2) { err.textContent = 'Please enter your name.'; nameInput.focus(); return; }
+  if (phone.replace(/\D/g, '').length < 10) { err.textContent = 'Please enter a valid phone number.'; f.phone.focus(); return; }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = 'That email doesn\'t look right.'; f.email.focus(); return; }
+  btn.disabled = true; btn.textContent = 'Reserving your seat…';
+  try {
+    const body = new URLSearchParams(new FormData(f));
+    body.append('page', PAGE_ID);
+    body.append('source', location.href);
+    const res = await fetch(SIGNUP_API, { method: 'POST', body });
+    const r = await res.json();
+    if (!r.ok) throw new Error(r.error || 'Please try again.');
+    try { fbq('track', 'Lead'); fbq('track', 'CompleteRegistration'); } catch (x) {}
+    let pid = ''; try { pid = await personalId(phone, email); } catch (z) {}
+    showDone(name.split(/\s+/)[0], name, pid, email, phone);
+  } catch (x) {
+    btn.disabled = false; btn.textContent = 'Reserve my free seat';
+    err.textContent = x.message && x.message !== 'Failed to fetch' ? x.message : 'Network problem. Please check your data and try again.';
+  }
+});
+
+// "Get my link in my inbox": the lead sends us a one-tap email, and the reply with their link lands in their inbox
+// (Gmail trusts replies to mail you wrote yourself, and from then on treats us as a known contact).
+function linkRequestHref(fullName, phone){
+  if (!replyTo) return '';
+  const subject = 'Send my link - ' + TRAINING.title;
+  const body = 'Hi, please send me my joining link.\n\nName: ' + fullName + '\nPhone: ' + phone;
+  return 'mailto:' + replyTo + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+}
+
+const ICON_CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+function showDone(first, fullName, pid, email, phone){
+  const ask = linkRequestHref(fullName, phone || '');
+  let classBtn = '';
+  if (classLink) {
+    const u = new URL(classLink);
+    if (fullName) u.searchParams.set('n', fullName.slice(0, 40));
+    if (pid) u.searchParams.set('pid', pid);
+    classBtn = '<a class="btn btn-ghost btn-block" href="' + esc(u.toString()) + '">Turn on class reminders on this phone</a>';
+  }
+  const steps = ask
+    ? ['Tap “Get my link in my inbox” and press Send.', 'Add the session to your calendar.', 'Turn on class reminders on this phone.']
+    : ['Add the session to your calendar.', 'Check your email (Primary, Promotions and Spam) and reply “GOT IT”.', 'Turn on class reminders on this phone.'];
+  document.getElementById('om-body').innerHTML =
+    '<div class="om-done">' +
+      '<div class="om-step"><span class="om-tick">' + ICON_CHECK + '</span><span class="label">Seat reserved</span></div>' +
+      '<h3 class="om-title">You\'re in, <em>' + esc(first) + '.</em></h3>' +
+      '<div class="om-when">' + esc(whenText) + '</div>' +
+      (ask
+        ? '<p class="om-sub"><b>Last step:</b> tap the button below. Your email app opens with a message ready. Tap <b>Send</b> and your joining link arrives in your inbox within a minute.</p>'
+        : '<p class="om-sub">' + (email ? 'We\'ve emailed your joining link to <b>' + esc(email) + '</b>. Check Primary, Promotions and Spam.' : 'We\'ll send your joining link by SMS before the session starts.') + '</p>') +
+      '<div class="om-actions">' +
+        (ask ? '<a class="btn btn-block" href="' + esc(ask) + '">Get my link in my inbox</a>' : '') +
+        '<a class="btn ' + (ask ? 'btn-ghost ' : '') + 'btn-block" href="' + googleCalLink() + '" target="_blank" rel="noopener">Add to Google Calendar</a>' +
+        '<a class="btn btn-ghost btn-block" href="' + icsLink() + '" download="eem26-training.ics">Apple or Outlook calendar</a>' +
+        classBtn +
+        (community ? '<a class="btn btn-ghost btn-block" href="' + esc(community) + '" target="_blank" rel="noopener">Join our updates channel</a>' : '') +
+      '</div>' +
+      '<div class="om-steps"><b>Do these now so you don\'t miss it</b><ol>' + steps.map(t => '<li>' + t + '</li>').join('') + '</ol></div>' +
+    '</div>';
+}
 
 // ── REVEAL ON SCROLL ──
 if('IntersectionObserver' in window){
@@ -861,55 +851,6 @@ document.querySelectorAll('.yt').forEach(b=>b.addEventListener('click',function(
   const box = document.createElement('div'); box.className = 'yt'; box.appendChild(f);
   this.replaceWith(box);
 },{once:true}));
-
-// ── OFFER SHEET: fire pixel, show sheet, auto-continue in 30s ──
-const OFFER_DURATION = 30000;
-let offerTimeoutId = null;
-let offerCountId   = null;
-
-function clearOfferTimers(){
-  if(offerTimeoutId){ clearTimeout(offerTimeoutId); offerTimeoutId = null; }
-  if(offerCountId){ clearInterval(offerCountId); offerCountId = null; }
-}
-function closeOfferModal(){
-  clearOfferTimers();
-  document.getElementById('offer-modal').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function openOfferModal(link){
-  const modal = document.getElementById('offer-modal');
-  const cta   = document.getElementById('om-cta');
-  const count = document.getElementById('om-count');
-  if(!modal || !cta || !count) { window.location.href = link; return; }
-  clearOfferTimers();
-  cta.setAttribute('href', link);
-  count.textContent = '30';
-  modal.classList.remove('open'); void modal.offsetWidth;
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  let s = 30;
-  offerCountId = setInterval(()=>{ s--; count.textContent = Math.max(s,0); if(s<=0) clearInterval(offerCountId); },1000);
-  offerTimeoutId = setTimeout(()=>{ clearOfferTimers(); window.location.href = link; }, OFFER_DURATION);
-}
-document.getElementById('om-cta').addEventListener('click', ()=>{ clearOfferTimers(); setTimeout(closeOfferModal,400); });
-document.getElementById('om-close').addEventListener('click', closeOfferModal);
-document.getElementById('offer-modal').addEventListener('click', function(e){ if(e.target===this) closeOfferModal(); });
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeOfferModal(); });
-
-// Intercept every WhatsApp button click — fire pixel, then show the sheet
-document.querySelectorAll('.wa-link').forEach(el=>{
-  el.addEventListener('click',function(e){
-    e.preventDefault();
-    try{
-      fbq('track','Lead');
-      fbq('track','Purchase',{value:0,currency:'NGN'});
-    }catch(err){}
-    openOfferModal(this.href);
-  });
-});
-
-// ── INIT ──
-applyLink();
 </script>
 </body>
 </html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reserve your free seat</title>
+<meta name="description" content="Register free — your joining link and reminders come by SMS and email.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Figtree:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07070c;--card:rgba(22,20,40,.88);--line:rgba(255,255,255,.1);--text:#f2f2f8;--muted:#a8a8c0;--gold:#F5A623;--gold2:#FFD700;--green:#22C55E;--err:#ff7070}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;background:radial-gradient(1200px 600px at 10% -10%,rgba(245,166,35,.16),transparent 60%),radial-gradient(900px 500px at 110% 10%,rgba(99,102,241,.18),transparent 60%),var(--bg);color:var(--text);font-family:'Figtree',system-ui,sans-serif;display:flex;align-items:center;justify-content:center;padding:28px 16px}
+.card{width:100%;max-width:460px;background:var(--card);border:1px solid var(--line);border-radius:26px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55);backdrop-filter:blur(14px)}
+.bar{height:3px;background:linear-gradient(90deg,transparent,var(--gold) 25%,var(--gold2) 50%,var(--gold) 75%,transparent)}
+.body{padding:26px 22px 24px}
+.status{display:flex;align-items:center;gap:8px;font-size:.68rem;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:#8888a8;margin-bottom:16px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px rgba(34,197,94,.7);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.kicker{font-size:.7rem;font-weight:900;letter-spacing:3.5px;color:var(--gold);text-transform:uppercase;margin-bottom:8px}
+h1{font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:2.4rem;line-height:1;letter-spacing:.5px;margin-bottom:12px}
+h1 em{font-style:normal;color:var(--gold)}
+.sub{color:var(--muted);line-height:1.6;font-size:.92rem;margin-bottom:18px}
+.sub b{color:#fff}
+.when{display:inline-block;margin-bottom:16px;padding:8px 14px;border-radius:999px;background:rgba(245,166,35,.12);border:1px solid rgba(245,166,35,.35);color:var(--gold2);font-weight:800;font-size:.9rem}
+.count{display:flex;gap:8px;margin-bottom:18px}
+.count div{flex:1;text-align:center;padding:10px 4px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.count b{display:block;font-size:1.4rem;font-variant-numeric:tabular-nums}
+.count span{font-size:.62rem;letter-spacing:1.4px;text-transform:uppercase;color:#8888a8}
+form{display:flex;flex-direction:column;gap:10px}
+input{width:100%;padding:15px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;font-size:16px;font-family:inherit;outline:none}
+input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,166,35,.18)}
+input::placeholder{color:#8a8aa6}
+.hp{display:none}
+.btn{display:block;width:100%;text-align:center;padding:17px;border:0;border-radius:999px;background:linear-gradient(135deg,rgba(52,211,113,.95),rgba(22,163,74,.9));color:#fff;font-family:inherit;font-weight:900;font-size:1rem;text-decoration:none;cursor:pointer;box-shadow:0 10px 30px rgba(34,197,94,.3)}
+.btn[disabled]{opacity:.7;cursor:wait}
+.btn2{display:block;text-align:center;padding:14px;border-radius:999px;border:1px solid rgba(255,255,255,.18);color:#fff;text-decoration:none;font-weight:800;font-size:.92rem;background:rgba(255,255,255,.06)}
+.err{min-height:1em;color:var(--err);font-size:.84rem;text-align:center}
+.note{text-align:center;margin-top:12px;font-size:.74rem;color:#7a7a9a}
+.actions{display:flex;flex-direction:column;gap:10px;margin:16px 0 10px}
+.steps{font-size:.86rem;line-height:1.65;color:#d4d4e8;margin-top:10px}
+.foot{padding:13px 22px;border-top:1px solid rgba(255,255,255,.07);font-size:.66rem;font-weight:700;letter-spacing:1.5px;color:#5a5a78;text-transform:uppercase;text-align:center}
+.missing{text-align:center}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="bar"></div>
+  <div class="body" id="body">
+    <div class="status"><span class="dot"></span><span>Free registration</span></div>
+    <div class="kicker" id="host">Loading…</div>
+    <h1 id="title">Reserve your <em>free seat</em></h1>
+    <div id="when-wrap"></div>
+    <p class="sub">Enter your details and we'll send your <b>joining link</b> and reminders by SMS &amp; email. <b>Free.</b></p>
+    <form id="form" novalidate>
+      <input name="name" placeholder="Your full name" autocomplete="name" required>
+      <input name="phone" type="tel" placeholder="Phone number (e.g. 08031234567)" autocomplete="tel" inputmode="tel" required>
+      <input name="email" type="email" placeholder="Email (to get the calendar invite)" autocomplete="email" inputmode="email">
+      <input name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="btn" id="submit" type="submit">⚡ Reserve My Free Seat</button>
+      <p class="err" id="err" role="alert"></p>
+    </form>
+    <p class="note">🔒 Your details are only used to send your link &amp; reminders.</p>
+  </div>
+  <div class="foot">Powered by OmniReach</div>
+</main>
+
+<script>
+// Generic signup page for any OmniReach landing page: join.html?p=<page id>[&px=<Facebook Pixel id>]
+const API = "https://leqizarzgfpiriknpnxw.supabase.co/functions/v1/omnireach";
+const params = new URLSearchParams(location.search);
+const PAGE = (params.get('p') || '').replace(/[^a-z0-9]/gi, '');
+const PIXEL = (params.get('px') || '').replace(/\D/g, '');
+let page = null;
+
+if (PIXEL) {
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
+  s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', PIXEL); fbq('track', 'PageView');
+}
+function track(ev){ try { if (window.fbq) fbq('track', ev); } catch (e) {} }
+// Same private id the OmniReach app uses: "or-" + 16 hex of sha256(last 10 phone digits, or lower-case email).
+async function personalId(phone, email){
+  const digits = (phone || '').replace(/\D/g, '').slice(-10);
+  const key = digits.length >= 7 ? digits : (email || '').trim().toLowerCase();
+  if (!key) return '';
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
+  return 'or-' + Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 16);
+}
+function esc(t){ const d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
+function stamp(d){ return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
+const fmt = d => d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Africa/Lagos' }) +
+  ' · ' + d.toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Africa/Lagos' }).toUpperCase() + ' (WAT)';
+
+function missing(msg){
+  document.getElementById('body').innerHTML = '<div class="missing"><div class="kicker">Oops</div><h1>' + esc(msg) + '</h1>' +
+    '<p class="sub">Please check the link you were given.</p></div>';
+}
+
+function countdown(start){
+  const wrap = document.getElementById('when-wrap');
+  wrap.innerHTML = '<div class="when">' + esc(fmt(start)) + '</div><div class="count" id="count"></div>';
+  const box = document.getElementById('count');
+  function tick(){
+    const ms = start.getTime() - Date.now();
+    if (ms <= 0) { box.innerHTML = '<div><b>LIVE</b><span>now</span></div>'; return; }
+    const d = Math.floor(ms / 86400000), h = Math.floor(ms / 3600000) % 24, m = Math.floor(ms / 60000) % 60, s = Math.floor(ms / 1000) % 60;
+    box.innerHTML = [[d,'days'],[h,'hrs'],[m,'mins'],[s,'secs']].map(x => '<div><b>' + x[0] + '</b><span>' + x[1] + '</span></div>').join('');
+    setTimeout(tick, 1000);
+  }
+  tick();
+}
+
+async function load(){
+  if (!PAGE) return missing('This signup link is incomplete');
+  try {
+    const r = await (await fetch(API + '?action=page&page=' + encodeURIComponent(PAGE))).json();
+    if (!r.ok) return missing('This signup page is closed');
+    page = r;
+    document.title = r.title + ' — Reserve your free seat';
+    document.getElementById('host').textContent = r.host ? r.host + ' invites you' : 'You are invited';
+    document.getElementById('title').innerHTML = esc(r.title);
+    if (r.event_at) countdown(new Date(r.event_at));
+  } catch (e) {
+    document.getElementById('host').textContent = 'You are invited';
+  }
+}
+load();
+
+document.getElementById('form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const f = this, btn = document.getElementById('submit'), err = document.getElementById('err');
+  const nameInput = f.elements['name'];
+  const name = nameInput.value.trim(), phone = f.elements['phone'].value.trim(), email = f.elements['email'].value.trim();
+  err.textContent = '';
+  if (name.length < 2) { err.textContent = 'Please enter your name.'; nameInput.focus(); return; }
+  if (phone.replace(/\D/g, '').length < 10) { err.textContent = 'Please enter a valid phone number.'; f.elements['phone'].focus(); return; }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { err.textContent = 'That email doesn\'t look right.'; f.elements['email'].focus(); return; }
+  btn.disabled = true; btn.textContent = 'Reserving your seat…';
+  try {
+    const body = new URLSearchParams(new FormData(f));
+    body.append('page', PAGE);
+    body.append('source', location.href);
+    const r = await (await fetch(API, { method: 'POST', body })).json();
+    if (!r.ok) throw new Error(r.error || 'Please try again.');
+    track('Lead'); track('CompleteRegistration');
+    let pid = ''; try { pid = await personalId(phone, email); } catch (z) {}
+    done(name.split(/\s+/)[0], name, pid, email, phone);
+  } catch (x) {
+    btn.disabled = false; btn.textContent = '⚡ Reserve My Free Seat';
+    err.textContent = x.message && x.message !== 'Failed to fetch' ? x.message : 'Network problem — please check your data and try again.';
+  }
+});
+
+function done(first, fullName, pid, email, phone){
+  const title = page ? page.title : 'Free training';
+  // "Get my link in my inbox": the lead sends a one-tap email; our reply with the link then lands in their inbox.
+  const ask = page && page.reply_to ? 'mailto:' + page.reply_to + '?subject=' + encodeURIComponent('Send my link - ' + title) +
+    '&body=' + encodeURIComponent('Hi, please send me my joining link.\n\nName: ' + fullName + '\nPhone: ' + (phone || '')) : '';
+  const askBtn = ask ? '<a class="btn" href="' + esc(ask) + '">📩 Get My Link In My Inbox</a>' : '';
+  let cal = '';
+  if (page && page.event_at) {
+    const start = new Date(page.event_at), end = new Date(start.getTime() + 90 * 60000);
+    const g = 'https://calendar.google.com/calendar/render?' + new URLSearchParams({
+      action: 'TEMPLATE', text: title, dates: stamp(start) + '/' + stamp(end),
+      details: 'Your joining link is sent by SMS/email before we start.'
+    }).toString();
+    const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//OmniReach//Signup//EN','BEGIN:VEVENT','UID:' + PAGE + '-' + stamp(start) + '@omnireach',
+      'DTSTAMP:' + stamp(new Date()),'DTSTART:' + stamp(start),'DTEND:' + stamp(end),'SUMMARY:' + title.replace(/[,;]/g, ' '),
+      'DESCRIPTION:Your joining link is sent by SMS/email before we start.',
+      'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Starts in 1 hour','TRIGGER:-PT60M','END:VALARM',
+      'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:Starts in 10 minutes','TRIGGER:-PT10M','END:VALARM',
+      'END:VEVENT','END:VCALENDAR'].join('\r\n');
+    cal = '<a class="' + (ask ? 'btn2' : 'btn') + '" href="' + g + '" target="_blank" rel="noopener">📅 Add To My Calendar</a>' +
+      '<a class="btn2" href="data:text/calendar;charset=utf-8,' + encodeURIComponent(ics) + '" download="invite.ics">Apple / Outlook calendar</a>';
+  }
+  // EEM26 Classroom: push reminders (1 day, 1 hour, 10 min, "live now") that open the class with their name filled in.
+  let classBtn = '';
+  if (page && page.class_link) {
+    const u = new URL(page.class_link);
+    if (fullName) u.searchParams.set('n', fullName.slice(0, 40));
+    if (pid) u.searchParams.set('pid', pid);
+    classBtn = '<a class="btn2" href="' + esc(u.toString()) + '">🔔 Turn on class reminders on this phone</a>';
+  }
+  const community = page && page.community_link ? '<a class="btn2" href="' + esc(page.community_link) + '" target="_blank" rel="noopener">Join our updates channel</a>' : '';
+  const thanks = page && page.thank_you ? '<p class="sub">' + esc(page.thank_you) + '</p>' : '';
+  document.getElementById('body').innerHTML =
+    '<div class="status"><span class="dot"></span><span>Seat reserved</span></div>' +
+    '<h1>You\'re in, <em>' + esc(first) + '</em>!</h1>' +
+    (page && page.event_at ? '<div class="when">' + esc(fmt(new Date(page.event_at))) + '</div>' : '') +
+    (ask
+      ? '<p class="sub"><b>Last step:</b> tap the button below — your email app opens with a message ready. Just tap <b>Send</b> and your joining link arrives in your inbox within a minute.</p>'
+      : '<p class="sub">' + (email ? 'We just emailed your joining link to <b>' + esc(email) + '</b> (check Primary, Promotions and Spam).' : '') + '</p>') + thanks +
+    '<div class="actions">' + askBtn + cal + classBtn + community + '</div>' +
+    '<div class="steps"><b>So you don\'t miss it:</b><br>' + (ask ? '1. Tap “Get My Link In My Inbox” and press Send.<br>2. Add it to your calendar.<br>3. Turn on class reminders on this phone.' : '1. Add it to your calendar.<br>2. Check your email (Primary, Promotions, Spam) and reply “GOT IT”.<br>3. Turn on class reminders on this phone.') + '</div>';
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
