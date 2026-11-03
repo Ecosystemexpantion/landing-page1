@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Free Live Training: Build a Digital Product Business on Selar | EEM26</title>
-<meta name="description" content="Free live training this Sunday at 8:00 PM WAT. See how EEM26 students set up a digital product business on Selar, using AI tools, from their phones.">
-<meta property="og:title" content="Free live training — build a digital product business on Selar">
-<meta property="og:description" content="This Sunday, 8:00 PM WAT. See the exact Selar setup EEM26 students use, step by step, on your phone. Free to attend.">
+<title>Free Live Training: Set Up an Automated Selar Store | EEM26</title>
+<meta name="description" content="Free live training this Sunday at 8:00 PM WAT. Watch a Selar store, sales page and AI sales assistant set up live, step by step, from a phone.">
+<meta property="og:title" content="Free live training: set up an automated Selar store">
+<meta property="og:description" content="This Sunday, 8:00 PM WAT. Watch the full automation set up live: Selar store, sales page and an AI assistant that replies to buyers 24/7. Free to attend.">
 <meta property="og:image" content="https://ecosystemexpantion.github.io/landing-page1/img/live-session.webp">
 <meta name="theme-color" content="#F5F0E6">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -116,7 +116,7 @@ h1 em,h2 em{font-style:italic;font-weight:400;color:var(--accent)}
 /* hero figure */
 .hero-figure{position:relative;justify-self:center;width:min(100%,340px)}
 .phone{background:#111;border-radius:34px;padding:9px;box-shadow:0 30px 60px -30px rgba(23,21,15,.45),0 0 0 1px rgba(23,21,15,.08);transform:rotate(1.5deg)}
-.phone img{border-radius:26px;width:100%;aspect-ratio:600/1080;object-fit:cover;object-position:top}
+.phone img{border-radius:26px;width:100%;aspect-ratio:540/1000;object-fit:cover;object-position:top}
 .figcap{display:flex;gap:10px;align-items:flex-start;margin-top:22px;font-size:14px;color:var(--ink-2);max-width:320px}
 .figcap svg{flex-shrink:0;margin-top:2px;color:var(--marigold)}
 .figcap b{color:var(--ink);font-weight:600}
@@ -266,6 +266,12 @@ footer p+p{margin-top:10px}
 .om-sub{font-size:16px;color:var(--ink-2);margin-bottom:18px}
 .om-caption{text-align:center;margin-top:12px;font-size:14px;color:var(--ink-2)}
 
+/* gift */
+.gift{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:center;background:var(--accent-tint);border:1px solid #C9DDCF;border-radius:10px;padding:16px;margin:4px 0 16px}
+.gift-icon{width:52px;height:52px;border-radius:10px;background:var(--surface);border:1px solid #C9DDCF;display:grid;place-items:center;color:var(--accent)}
+.gift b{display:block;font-family:var(--serif);font-size:18px;line-height:1.25;font-weight:600}
+.gift span{font-size:14px;color:var(--ink-2)}
+.om-more{margin-top:8px;padding-top:16px;border-top:1px solid var(--rule)}
 /* signup form */
 .om-form{display:grid;gap:12px}
 .om-field{display:grid;gap:6px}
@@ -322,13 +328,13 @@ footer p+p{margin-top:10px}
     <div id="om-body">
       <div class="om-step"><span class="dot"></span><span class="label" id="om-when-label">Free · Sunday 8:00 PM WAT</span></div>
       <h3 class="om-title" id="om-title">Reserve your <em>free seat.</em></h3>
-      <p class="om-sub">Enter your details and we'll send your joining link and reminders by SMS and email. No group to join, no payment.</p>
+      <p class="om-sub">Enter your details and we'll send your joining link and reminders. <b>You'll also get a free gift</b> as soon as you register. No payment.</p>
       <form id="om-form" class="om-form" novalidate>
         <label class="om-field"><span>Full name</span><input name="name" autocomplete="name" required></label>
         <label class="om-field"><span>Phone number</span><input name="phone" type="tel" placeholder="e.g. 0803 123 4567" autocomplete="tel" inputmode="tel" required></label>
         <label class="om-field"><span>Email <small>(for the calendar invite)</small></span><input name="email" type="email" autocomplete="email" inputmode="email"></label>
         <input name="website" class="om-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button type="submit" class="btn btn-block" id="om-submit">Reserve my free seat</button>
+        <button type="submit" class="btn btn-block" id="om-submit">Reserve my seat and get my gift</button>
         <p class="om-error" id="om-error" role="alert"></p>
       </form>
       <p class="om-caption"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>We only use your details to send your training link and reminders.</p>
@@ -356,8 +362,8 @@ footer p+p{margin-top:10px}
   <div class="wrap hero-grid">
     <div>
       <div class="eyebrow"><span class="dot"></span><span class="label">Free live training · Sunday, 8:00 PM WAT</span></div>
-      <h1>Build a digital product business on Selar, <em>with AI doing the heavy work.</em></h1>
-      <p class="lede">In one live evening, see the exact setup EEM26 students use: how Selar works, what to sell when you're starting from zero, and the AI tools that write your product pages and reply to customers. You only need your phone.</p>
+      <h1>Set up a Selar store that <em>keeps working while you sleep.</em></h1>
+      <p class="lede">This Sunday, watch the full tech setup built live: your Selar store, a product to sell, a sales page, and an AI sales assistant that answers buyers and sends them to checkout 24/7. No tech skills. Just your phone.</p>
       <div class="hero-actions">
         <a href="#register" class="btn btn-block reg" id="hero-cta">
           Join the free training
@@ -387,10 +393,10 @@ footer p+p{margin-top:10px}
     </div>
 
     <figure class="hero-figure">
-      <div class="phone"><img src="img/live-session.webp" width="600" height="1284" alt="Screenshot of a recent EEM26 Tech Training live session, with Mr. Stanley presenting his Selar affiliate dashboard" fetchpriority="high"></div>
+      <div class="phone"><img src="img/live-session.webp" width="540" height="1158" alt="Screenshot of a recent EEM26 live session on Telegram, with 114 participants while Mr. Stanley shares his Selar dashboard" fetchpriority="high"></div>
       <figcaption class="figcap">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5"/></svg>
-        <span><b>A recent live session.</b> Mr. Stanley presenting his Selar affiliate dashboard on screen during EEM26 Tech Training.</span>
+        <span><b>A recent live session.</b> 114 people on the call while Mr. Stanley shared his Selar dashboard, screen by screen.</span>
       </figcaption>
     </figure>
   </div>
@@ -402,7 +408,7 @@ footer p+p{margin-top:10px}
     <li><b>500+</b><span>students trained</span></li>
     <li><b>8</b><span>currencies our students have sold in</span></li>
     <li><b>₦0</b><span>to attend the training</span></li>
-    <li><b>1</b><span>phone is all you need</span></li>
+    <li><b>24/7</b><span>AI assistant replies to your buyers</span></li>
   </ul>
 </section>
 
@@ -411,14 +417,14 @@ footer p+p{margin-top:10px}
   <div class="wrap split">
     <div class="sec-head rv">
       <div class="sec-num"><b>01</b><span class="label">What you'll learn</span></div>
-      <h2>Four things you'll <em>see done live</em> on Sunday.</h2>
-      <p class="muted">No slides full of theory. We walk through a real setup on screen, so you can follow along on your own phone.</p>
+      <h2>The automation, <em>set up live</em> on Sunday.</h2>
+      <p class="muted">Four parts that work together, so buyers can find you, ask questions and pay at any hour. We build each one on screen while you follow along on your phone.</p>
     </div>
     <ol class="learn rv">
-      <li><h3>How Selar works, from store to payout</h3><p>Opening your store, pricing a product, and how buyers in Nigeria and other African countries pay you.</p></li>
-      <li><h3>What to sell when you're starting from zero</h3><p>How to choose your first digital product, or sell other people's products for a commission as an affiliate.</p></li>
-      <li><h3>The AI tools that do the heavy work</h3><p>How students use AI to write product pages, social media captions and replies to customer questions.</p></li>
-      <li><h3>A full student setup, screen by screen</h3><p>We open a real EEM26 student's setup and go through every step, so you can copy it the same night.</p></li>
+      <li><h3>Your Selar store</h3><p>Set up to take payments in naira and other African currencies, day and night, with money landing in your Selar wallet.</p></li>
+      <li><h3>A product to sell from day one</h3><p>Create your own digital product, or resell ready-made products as an affiliate and earn a commission on each sale.</p></li>
+      <li><h3>A sales page written by AI</h3><p>A page that explains your offer, answers common questions and sends buyers straight to checkout.</p></li>
+      <li><h3>An AI sales assistant that never logs off</h3><p>It replies to customer questions, handles objections and guides people to pay, even at 2 AM.</p></li>
     </ol>
   </div>
 </section>
@@ -457,11 +463,11 @@ footer p+p{margin-top:10px}
   <div class="wrap split">
     <div class="sec-head rv">
       <div class="sec-num"><b>03</b><span class="label">How it works</span></div>
-      <h2>Three steps to <em>Sunday night.</em></h2>
+      <h2>Three steps, <em>then Sunday night.</em></h2>
     </div>
     <ol class="steps rv">
       <li data-n="1"><h3>Reserve your free seat</h3><p>Tap any “Join” button and enter your name, phone number and email. It takes about 20 seconds.</p></li>
-      <li data-n="2"><h3>Get your link and reminders</h3><p>We send your joining link and reminders by SMS and email, and you can add the session to your calendar.</p></li>
+      <li data-n="2"><h3>Claim your free gift</h3><p>Right after you register, tap one button to get your gift and your joining link sent to your inbox.</p></li>
       <li data-n="3"><h3>Join live at 8:00 PM WAT</h3><p>Open the link from your phone on Sunday and follow along, step by step.</p></li>
     </ol>
   </div>
@@ -597,6 +603,7 @@ footer p+p{margin-top:10px}
       <details><summary>Do I need any experience?<i></i></summary><p>No. We start from the beginning and show every step on screen. You don't need tech skills or an existing audience to follow along.</p></details>
       <details><summary>Where does the training happen?<i></i></summary><p>Online. After you reserve your seat, we send your joining link by SMS and email before 8:00 PM on Sunday. If it doesn't arrive, check your Promotions and Spam folders.</p></details>
       <details><summary>Will there be a replay?<i></i></summary><p>No. It's a live session and we don't post a replay, so plan to join on Sunday at 8:00 PM WAT.</p></details>
+      <details><summary>Does it really work while I sleep?<i></i></summary><p>The store, sales page and AI assistant run around the clock, so buyers can ask questions and pay at any hour, even when you're offline. Whether people buy still depends on your product and how you promote it, which we cover on Sunday.</p></details>
       <details><summary>How much will I earn?<i></i></summary><p>We can't promise any amount, and you should be careful of anyone who does. The training shows you how the setup works. What you earn afterwards depends on the work you put in, the product you choose and your market.</p></details>
     </div>
   </div>
@@ -606,8 +613,8 @@ footer p+p{margin-top:10px}
 <section class="final" id="final">
   <div class="wrap narrow">
     <span class="label">Sunday · 8:00 PM WAT · Free</span>
-    <h2>See the full setup <em>live this Sunday.</em></h2>
-    <p class="lede">Reserve your seat now and we'll send your joining link and reminders. It's free, and you can follow along on your phone.</p>
+    <h2>Watch the automation <em>built live this Sunday.</em></h2>
+    <p class="lede">Reserve your seat and claim your free gift. We'll send your joining link and reminders. It's free, and you can follow along on your phone.</p>
     <a href="#register" class="btn btn-block reg" style="max-width:440px">
       Join the free training
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
@@ -680,7 +687,11 @@ let whenText = fmtWhen(START);
 const pad = n => String(n).padStart(2,'0');
 let tickTimer = null;
 function renderTicket(){
-  const date = START.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',timeZone:'Africa/Lagos'}).replace(',','');
+  const dm = START.toLocaleDateString('en-GB',{day:'numeric',month:'long',timeZone:'Africa/Lagos'});
+  const wd = START.toLocaleDateString('en-GB',{weekday:'long',timeZone:'Africa/Lagos'});
+  const lagosDay = t => new Date(t + 3600e3).toISOString().slice(0,10);
+  const days = Math.round((Date.parse(lagosDay(START.getTime())) - Date.parse(lagosDay(Date.now()))) / 86400e3);
+  const date = (days <= 0 ? 'Today' : days === 1 ? 'Tomorrow' : days < 7 ? 'This ' + wd : 'Next ' + wd) + ' · ' + dm;
   const time = START.toLocaleTimeString('en-GB',{hour:'numeric',minute:'2-digit',hour12:true,timeZone:'Africa/Lagos'}).toUpperCase();
   document.getElementById('t-date').textContent = date;
   document.getElementById('t-time').textContent = time + ' WAT';
@@ -765,17 +776,20 @@ document.getElementById('om-form').addEventListener('submit', async function(e){
     let pid = ''; try { pid = await personalId(phone, email); } catch (z) {}
     showDone(name.split(/\s+/)[0], name, pid, email, phone);
   } catch (x) {
-    btn.disabled = false; btn.textContent = 'Reserve my free seat';
+    btn.disabled = false; btn.textContent = 'Reserve my seat and get my gift';
     err.textContent = x.message && x.message !== 'Failed to fetch' ? x.message : 'Network problem. Please check your data and try again.';
   }
 });
 
 // "Get my link in my inbox": the lead sends us a one-tap email, and the reply with their link lands in their inbox
 // (Gmail trusts replies to mail you wrote yourself, and from then on treats us as a known contact).
+// What the thank-you screen offers. Put the gift's link in this page's thank-you message in the OmniReach app:
+// that message is included in the reply email people get after tapping "Send me my gift".
+const GIFT = { name: 'My step-by-step Selar setup guide', detail: 'The same guide our students use to set up their store and AI assistant.' };
 function linkRequestHref(fullName, phone){
   if (!replyTo) return '';
-  const subject = 'Send my link - ' + TRAINING.title;
-  const body = 'Hi, please send me my joining link.\n\nName: ' + fullName + '\nPhone: ' + phone;
+  const subject = 'Send my gift and my link - ' + TRAINING.title;
+  const body = 'Hi, please send me my free gift and my joining link.\n\nName: ' + fullName + '\nPhone: ' + phone;
   return 'mailto:' + replyTo + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 }
 
@@ -789,25 +803,26 @@ function showDone(first, fullName, pid, email, phone){
     if (pid) u.searchParams.set('pid', pid);
     classBtn = '<a class="btn btn-ghost btn-block" href="' + esc(u.toString()) + '">Turn on class reminders on this phone</a>';
   }
-  const steps = ask
-    ? ['Tap “Get my link in my inbox” and press Send.', 'Add the session to your calendar.', 'Turn on class reminders on this phone.']
-    : ['Add the session to your calendar.', 'Check your email (Primary, Promotions and Spam) and reply “GOT IT”.', 'Turn on class reminders on this phone.'];
+  const giftBox =
+    '<div class="gift">' +
+      '<div class="gift-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></div>' +
+      '<div><b>' + esc(GIFT.name) + '</b><span>' + esc(GIFT.detail) + '</span></div>' +
+    '</div>';
   document.getElementById('om-body').innerHTML =
     '<div class="om-done">' +
-      '<div class="om-step"><span class="om-tick">' + ICON_CHECK + '</span><span class="label">Seat reserved</span></div>' +
-      '<h3 class="om-title">You\'re in, <em>' + esc(first) + '.</em></h3>' +
-      '<div class="om-when">' + esc(whenText) + '</div>' +
+      '<div class="om-step"><span class="om-tick">' + ICON_CHECK + '</span><span class="label">Seat reserved · ' + esc(whenText) + '</span></div>' +
+      '<h3 class="om-title">' + esc(first) + ', <em>I have a gift for you.</em></h3>' +
       (ask
-        ? '<p class="om-sub"><b>Last step:</b> tap the button below. Your email app opens with a message ready. Tap <b>Send</b> and your joining link arrives in your inbox within a minute.</p>'
-        : '<p class="om-sub">' + (email ? 'We\'ve emailed your joining link to <b>' + esc(email) + '</b>. Check Primary, Promotions and Spam.' : 'We\'ll send your joining link by SMS before the session starts.') + '</p>') +
-      '<div class="om-actions">' +
-        (ask ? '<a class="btn btn-block" href="' + esc(ask) + '">Get my link in my inbox</a>' : '') +
-        '<a class="btn ' + (ask ? 'btn-ghost ' : '') + 'btn-block" href="' + googleCalLink() + '" target="_blank" rel="noopener">Add to Google Calendar</a>' +
+        ? '<p class="om-sub">Your seat for Sunday is saved. Before then, I want you to have this:</p>' + giftBox +
+          '<p class="om-sub">Tap the button below. Your email app opens with a short message to me. <b>Press Send</b> and I\'ll reply within a minute with your gift and your joining link.</p>' +
+          '<div class="om-actions"><a class="btn btn-block" id="gift-btn" href="' + esc(ask) + '">Send me my gift</a></div>'
+        : '<p class="om-sub">Your seat for Sunday is saved. ' + (email ? 'Your joining link is on its way to <b>' + esc(email) + '</b>. Check Primary, Promotions and Spam.' : 'We\'ll send your joining link by SMS before the session starts.') + '</p>') +
+      '<div class="om-actions om-more">' +
+        '<a class="btn btn-ghost btn-block" href="' + googleCalLink() + '" target="_blank" rel="noopener">Add to Google Calendar</a>' +
         '<a class="btn btn-ghost btn-block" href="' + icsLink() + '" download="eem26-training.ics">Apple or Outlook calendar</a>' +
         classBtn +
         (community ? '<a class="btn btn-ghost btn-block" href="' + esc(community) + '" target="_blank" rel="noopener">Join our updates channel</a>' : '') +
       '</div>' +
-      '<div class="om-steps"><b>Do these now so you don\'t miss it</b><ol>' + steps.map(t => '<li>' + t + '</li>').join('') + '</ol></div>' +
     '</div>';
 }
 
