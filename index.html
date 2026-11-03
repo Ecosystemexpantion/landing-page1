@@ -772,7 +772,8 @@ document.querySelectorAll('.reveal,.learn-list li,.for-card').forEach(el=>obs.ob
 
 // ── SIGNUP (no WhatsApp group: details go straight to the OmniReach app) ──
 const SIGNUP_API = "https://leqizarzgfpiriknpnxw.supabase.co/functions/v1/omnireach";
-const PAGE_ID    = "eem26";
+// ?p=<page code> sends this page's signups to that student's OmniReach app instead of the coach's.
+const PAGE_ID    = ((new URLSearchParams(location.search).get('p') || '').replace(/[^a-z0-9]/gi, '') || "eem26").slice(0, 40);
 const TRAINING   = { title: "EEM26 Free Sunday Training", hour: 20, minutes: 90 }; // 8:00PM WAT
 
 // Next Sunday 8:00PM Lagos time (UTC+1); after 9:30PM on Sunday it rolls to the following week.
