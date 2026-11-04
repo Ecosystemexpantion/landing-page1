@@ -73,6 +73,21 @@ const PAGE = (params.get('p') || '').replace(/[^a-z0-9]/gi, '');
 const PIXEL = (params.get('px') || '').replace(/\D/g, '');
 let page = null;
 
+// Page funnel for the OmniReach app: visits → tapped "Save my seat" → started typing (each counted once per visitor per day).
+function funnel(ev){
+  try {
+    if (funnel.sent[ev]) return;
+    funnel.sent[ev] = 1;
+    let v = localStorage.getItem('or_vid');
+    if (!v) {
+      v = 'v-' + Array.from(crypto.getRandomValues(new Uint8Array(8)), b => b.toString(16).padStart(2, '0')).join('');
+      localStorage.setItem('or_vid', v);
+    }
+    fetch(API, { method: 'POST', body: new URLSearchParams({ action: 'track', page: PAGE, ev, vid: v }), keepalive: true }).catch(() => {});
+  } catch (e) {}
+}
+funnel.sent = {};
+
 if (PIXEL) {
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
   if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
@@ -128,6 +143,10 @@ async function load(){
 }
 load();
 
+// This page shows the form straight away, so a first tap into it counts as "tapped Save my seat".
+if (PAGE) funnel('view');
+document.getElementById('form').addEventListener('focusin', () => { if (PAGE) funnel('click'); });
+document.getElementById('form').addEventListener('input', () => { if (PAGE) funnel('start'); });
 document.getElementById('form').addEventListener('submit', async function(e){
   e.preventDefault();
   const f = this, btn = document.getElementById('submit'), err = document.getElementById('err');
