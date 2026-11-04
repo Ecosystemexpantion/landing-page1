@@ -766,7 +766,7 @@ function showDone(first, fullName, pid, email, phone){
     const u = new URL(classLink);
     if (fullName) u.searchParams.set('n', fullName.slice(0, 40));
     if (pid) u.searchParams.set('pid', pid);
-    classBtn = '<a class="btn btn-ghost btn-block" href="' + esc(u.toString()) + '">Turn on class reminders on this phone</a>';
+    classBtn = '<a class="btn btn-block" href="' + esc(u.toString()) + '">🔔 Alert me on this phone when we go live</a>';
   }
   const giftBox =
     '<div class="gift">' +
@@ -783,9 +783,9 @@ function showDone(first, fullName, pid, email, phone){
           '<div class="om-actions"><a class="btn btn-block" id="gift-btn" href="' + esc(ask) + '">Send me my gift</a></div>'
         : '<p class="om-sub">Your seat for Sunday is saved. ' + (email ? 'Your joining link is on its way to <b>' + esc(email) + '</b>. Check Primary, Promotions and Spam.' : 'We\'ll send your joining link by SMS before the session starts.') + '</p>') +
       '<div class="om-actions om-more">' +
+        (classBtn ? '<p class="om-sub" style="margin:4px 0 0"><b>Most people who miss it simply forget.</b> Turn on the alert and add it to your calendar:</p>' + classBtn : '') +
         '<a class="btn btn-ghost btn-block" href="' + googleCalLink() + '" target="_blank" rel="noopener">Add to Google Calendar</a>' +
         '<a class="btn btn-ghost btn-block" href="' + icsLink() + '" download="eem26-training.ics">Apple or Outlook calendar</a>' +
-        classBtn +
         (community ? '<a class="btn btn-ghost btn-block" href="' + esc(community) + '" target="_blank" rel="noopener">Join our updates channel</a>' : '') +
       '</div>' +
     '</div>';
