@@ -272,6 +272,17 @@ footer p+p{margin-top:10px}
 .om-field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-tint)}
 .om-form .btn{margin-top:6px}
 .om-form .btn[disabled]{opacity:.7;cursor:wait}
+.om-bonus{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start;background:var(--accent-tint);border:1px solid #C9DDCF;border-radius:10px;padding:14px;margin:0 0 16px}
+.om-bonus .gift-icon{width:40px;height:40px}
+.om-bonus b{display:block;font-size:15px;line-height:1.3;color:var(--ink)}
+.om-bonus span{font-size:14px;color:var(--ink-2)}
+.bonus-line{display:flex;gap:10px;align-items:flex-start;margin:0 0 22px;padding:12px 14px;border-left:3px solid var(--accent);background:var(--accent-tint);border-radius:0 8px 8px 0;font-size:16px;color:var(--ink)}
+.bonus-line svg{flex:none;margin-top:3px;color:var(--accent)}
+#om-nudge{display:none;text-align:center;padding:8px 0}
+#om-nudge.show{display:block}
+#om-nudge .om-sub{margin-bottom:18px}
+#om-nudge .btn{margin-bottom:10px}
+.om-plain{background:none;border:0;color:var(--ink-3);font:15px var(--sans);text-decoration:underline;cursor:pointer;padding:8px}
 .om-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .om-error{min-height:1.2em;color:#B42318;font-size:14px;text-align:center}
 .om-caption{display:flex;align-items:center;justify-content:center;gap:6px}
@@ -315,16 +326,23 @@ footer p+p{margin-top:10px}
 <div id="offer-modal" role="dialog" aria-modal="true" aria-labelledby="om-title">
   <div class="om-card">
     <button type="button" class="om-close" id="om-close" aria-label="Close">&times;</button>
+    <div id="om-nudge" role="alertdialog" aria-labelledby="om-nudge-title">
+      <h3 class="om-title" id="om-nudge-title" style="padding-right:0">You're <em>one step away.</em></h3>
+      <p class="om-sub">Your free seat and the software I'm giving away live are still waiting. Finishing takes about 20 seconds.</p>
+      <button type="button" class="btn btn-block" id="om-finish">Finish registering</button>
+      <button type="button" class="om-plain" id="om-leave">No thanks, I'll miss it</button>
+    </div>
     <div id="om-body">
       <div class="om-step"><span class="dot"></span><span class="label" id="om-when-label">Free · Sunday 8:00 PM WAT</span></div>
       <h3 class="om-title" id="om-title">Reserve your <em>free seat.</em></h3>
-      <p class="om-sub">Enter your details and we'll send your joining link and reminders. <b>You'll also get a free gift</b> as soon as you register. No payment.</p>
+      <p class="om-sub">It takes 20 seconds. We'll send your joining link and reminders. No payment.</p>
+      <div class="om-bonus"><div class="gift-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg></div><div><b>Free with your seat: the exact software I use</b><span>During the live training, I'll give you free access to the same software I use to run my Selar business, and set it up with you step by step.</span></div></div>
       <form id="om-form" class="om-form" novalidate>
         <label class="om-field"><span>Full name</span><input name="name" autocomplete="name" required></label>
         <label class="om-field"><span>Phone number</span><input name="phone" type="tel" placeholder="e.g. 0803 123 4567" autocomplete="tel" inputmode="tel" required></label>
         <label class="om-field"><span>Email <small>(for the calendar invite)</small></span><input name="email" type="email" autocomplete="email" inputmode="email"></label>
         <input name="website" class="om-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button type="submit" class="btn btn-block" id="om-submit">Reserve my seat and get my gift</button>
+        <button type="submit" class="btn btn-block" id="om-submit">Reserve my free seat</button>
         <p class="om-error" id="om-error" role="alert"></p>
       </form>
       <p class="om-caption"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>We only use your details to send your training link and reminders.</p>
@@ -354,6 +372,7 @@ footer p+p{margin-top:10px}
       <div class="eyebrow"><span class="dot"></span><span class="label">Free live training · Sunday, 8:00 PM WAT</span></div>
       <h1>Set up a Selar store that <em>keeps working while you sleep.</em></h1>
       <p class="lede">This Sunday, watch the full tech setup built live: your Selar store, a product to sell, a sales page, and an AI sales assistant that answers buyers and sends them to checkout 24/7. No tech skills. Just your phone.</p>
+      <p class="bonus-line"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg><span><b>Register now</b> and get free access to the exact software I use, given to everyone on the live training.</span></p>
       <div class="hero-actions">
         <a href="#register" class="btn btn-block reg" id="hero-cta">
           Join the free training
@@ -581,7 +600,7 @@ footer p+p{margin-top:10px}
   <div class="wrap narrow">
     <span class="label">Sunday · 8:00 PM WAT · Free</span>
     <h2>Watch the automation <em>built live this Sunday.</em></h2>
-    <p class="lede">Reserve your seat and claim your free gift. We'll send your joining link and reminders. It's free, and you can follow along on your phone.</p>
+    <p class="lede">Reserve your seat now. On the live training you'll get free access to the exact software I use, and I'll set it up with you step by step. It's free, and you can follow along on your phone.</p>
     <a href="#register" class="btn btn-block reg" style="max-width:440px">
       Join the free training
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
@@ -726,7 +745,18 @@ function openSignup(){
   if (first) setTimeout(() => first.focus(), 250);
   try { fbq('track', 'InitiateCheckout'); } catch (e) {}
 }
-function closeSignup(){
+let registered = false, nudged = false;
+function closeSignup(force){
+  const nudge = document.getElementById('om-nudge');
+  if (!document.getElementById('offer-modal').classList.contains('open')) return;
+  if (force !== true && funnel.sent.start && !registered && !nudged) {
+    nudged = true;
+    nudge.classList.add('show');
+    document.getElementById('om-body').style.display = 'none';
+    return;
+  }
+  nudge.classList.remove('show');
+  document.getElementById('om-body').style.display = '';
   document.getElementById('offer-modal').classList.remove('open');
   document.body.style.overflow = '';
 }
@@ -736,7 +766,26 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSignup(
 document.querySelectorAll('.reg').forEach(el => el.addEventListener('click', e => { e.preventDefault(); openSignup(); }));
 if (location.hash === '#register') openSignup();
 funnel('view');
-document.getElementById('om-form').addEventListener('input', () => funnel('start'));
+document.getElementById('om-finish').addEventListener('click', () => {
+  document.getElementById('om-nudge').classList.remove('show');
+  document.getElementById('om-body').style.display = '';
+  const f = document.getElementById('om-form');
+  const empty = ['name', 'phone', 'email'].map(n => f.elements[n]).find(i => !i.value.trim());
+  (empty || f.elements['name']).focus();
+});
+document.getElementById('om-leave').addEventListener('click', () => closeSignup(true));
+// Keep what they typed, so coming back later doesn't mean starting again.
+(function(){
+  const f = document.getElementById('om-form');
+  try {
+    const d = JSON.parse(localStorage.getItem('or_draft') || '{}');
+    ['name', 'phone', 'email'].forEach(n => { if (d[n] && !f.elements[n].value) f.elements[n].value = d[n]; });
+  } catch (e) {}
+  f.addEventListener('input', () => {
+    funnel('start');
+    try { localStorage.setItem('or_draft', JSON.stringify({ name: f.elements['name'].value, phone: f.phone.value, email: f.email.value })); } catch (e) {}
+  });
+})();
 
 document.getElementById('om-form').addEventListener('submit', async function(e){
   e.preventDefault();
@@ -757,10 +806,12 @@ document.getElementById('om-form').addEventListener('submit', async function(e){
     if (!r.ok) throw new Error(r.error || 'Please try again.');
     try { fbq('track', 'Lead'); fbq('track', 'CompleteRegistration'); } catch (x) {}
     funnel('signup');
+    registered = true;
+    try { localStorage.removeItem('or_draft'); } catch (z) {}
     let pid = ''; try { pid = await personalId(phone, email); } catch (z) {}
     showDone(name.split(/\s+/)[0], name, pid, email, phone);
   } catch (x) {
-    btn.disabled = false; btn.textContent = 'Reserve my seat and get my gift';
+    btn.disabled = false; btn.textContent = 'Reserve my free seat';
     err.textContent = x.message && x.message !== 'Failed to fetch' ? x.message : 'Network problem. Please check your data and try again.';
   }
 });
