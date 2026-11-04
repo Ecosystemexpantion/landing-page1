@@ -20,10 +20,11 @@ n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','1848577126497709');
+fbq('init','1871296903869707');
 fbq('track','PageView');
 fbq('track','ViewContent');
 </script>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1848577126497709&ev=PageView&noscript=1"/></noscript>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1848577126497709&ev=PageView&noscript=1"/><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1871296903869707&ev=PageView&noscript=1"/></noscript>
 <!-- End Facebook Pixel -->
 <script>document.documentElement.classList.add('js')</script>
 <style>
@@ -789,6 +790,16 @@ function showDone(first, fullName, pid, email, phone){
       '</div>' +
     '</div>';
 }
+
+// ── EXTRA PIXEL EVENTS: gift email tapped (Contact), calendar added (Schedule) ──
+document.addEventListener('click', e => {
+  const a = e.target.closest('a');
+  if (!a) return;
+  try {
+    if (a.id === 'gift-btn') fbq('track', 'Contact');
+    else if (a.id === 'cal-link' || /calendar\.google\.com|^data:text\/calendar/.test(a.getAttribute('href') || '')) fbq('track', 'Schedule');
+  } catch (x) {}
+});
 
 // ── REVEAL ON SCROLL ──
 if('IntersectionObserver' in window){
