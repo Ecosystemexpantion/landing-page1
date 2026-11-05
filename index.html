@@ -757,7 +757,7 @@ function openSignup(){
   if (WA_NUMBER) {
     // The tap is the sign-up now, so the ad keeps getting its conversion signal.
     try { fbq('track', 'Lead'); fbq('track', 'CompleteRegistration'); fbq('track', 'Contact'); } catch (e) {}
-    setTimeout(() => { location.href = waJoinHref(); }, 150);
+    setTimeout(() => { location.href = waJoinHref(); }, 500);
     return;
   }
   const modal = document.getElementById('offer-modal');
