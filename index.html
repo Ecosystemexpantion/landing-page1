@@ -749,7 +749,12 @@ function waJoinHref(){
   return /^https:\/\/chat\.whatsapp\.com\//.test(community) ? community : GROUP_DEFAULT;
 }
 function setJoinLinks(){
-  document.querySelectorAll('.reg').forEach(el => el.setAttribute('href', waJoinHref()));
+  // A new tab keeps this page alive while the pixel sends Lead/CompleteRegistration (leaving at once can cut them off).
+  document.querySelectorAll('.reg').forEach(el => { el.setAttribute('href', waJoinHref()); el.setAttribute('target', '_blank'); el.setAttribute('rel', 'noopener'); });
+}
+function trackJoin(){
+  funnel('click');
+  try { fbq('track', 'Lead'); fbq('track', 'CompleteRegistration'); fbq('track', 'Contact'); } catch (e) {}
 }
 function openSignup(){
   funnel('click');
@@ -785,7 +790,11 @@ function closeSignup(force){
 document.getElementById('om-close').addEventListener('click', closeSignup);
 document.getElementById('offer-modal').addEventListener('click', function(e){ if (e.target === this) closeSignup(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSignup(); });
-document.querySelectorAll('.reg').forEach(el => el.addEventListener('click', e => { e.preventDefault(); openSignup(); }));
+// Join buttons: count the tap, then let the link open the WhatsApp group in a new tab.
+document.querySelectorAll('.reg').forEach(el => el.addEventListener('click', e => {
+  if (WA_NUMBER) { trackJoin(); return; }
+  e.preventDefault(); openSignup();
+}));
 setJoinLinks();
 funnel('view');
 document.getElementById('om-finish').addEventListener('click', () => {
