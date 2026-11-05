@@ -283,6 +283,9 @@ footer p+p{margin-top:10px}
 #om-nudge .om-sub{margin-bottom:18px}
 #om-nudge .btn{margin-bottom:10px}
 .om-plain{background:none;border:0;color:var(--ink-3);font:15px var(--sans);text-decoration:underline;cursor:pointer;padding:8px}
+.btn-tg{background:#229ED9!important;border-color:#229ED9!important;color:#fff!important}
+.tg-note{font-size:14px;margin:-6px 0 10px}
+.tg-alt{font-size:14px;color:var(--ink-3);text-align:center;margin:0 0 14px}.tg-alt a{color:var(--ink-2)}
 .om-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
 .om-error{min-height:1.2em;color:#B42318;font-size:14px;text-align:center}
 .om-caption{display:flex;align-items:center;justify-content:center;gap:6px}
@@ -661,7 +664,7 @@ function icsLink(){
 }
 function esc(t){ const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
-let community = '', classLink = '', replyTo = '';
+let community = '', classLink = '', replyTo = '', tgBot = '';
 let START = nextTraining(), END = new Date(START.getTime() + TRAINING.minutes * 60000);
 const fmtWhen = d => d.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Africa/Lagos' }) + ' · ' +
   d.toLocaleTimeString('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Africa/Lagos' }).toUpperCase() + ' (WAT)';
@@ -704,6 +707,7 @@ fetch(SIGNUP_API + '?action=page&page=' + PAGE_ID).then(r => r.json()).then(p =>
   if (p.community_link) community = p.community_link;
   if (p.class_link) classLink = p.class_link;
   if (p.reply_to) replyTo = p.reply_to;
+  if (p.telegram_bot && /^[A-Za-z0-9_]{5,40}$/.test(p.telegram_bot)) tgBot = p.telegram_bot;
   if (p.event_at) {
     START = new Date(p.event_at);
     END = new Date(START.getTime() + (p.duration_min || TRAINING.minutes) * 60000);
@@ -828,9 +832,11 @@ function linkRequestHref(fullName, phone){
   return 'mailto:' + replyTo + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 }
 
+const ICON_TG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="margin-right:8px;vertical-align:-4px"><path d="M21.9 4.3 18.7 19.4c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.3-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13l-4.8-1.5c-1-.3-1.1-1 .2-1.5L20.5 2.7c.9-.3 1.6.2 1.4 1.6z"/></svg>';
 const ICON_CHECK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
 function showDone(first, fullName, pid, email, phone){
   const ask = linkRequestHref(fullName, phone || '');
+  const tg = tgBot && pid ? 'https://t.me/' + tgBot + '?start=' + pid : '';
   let classBtn = '';
   if (classLink) {
     const u = new URL(classLink);
@@ -847,7 +853,12 @@ function showDone(first, fullName, pid, email, phone){
     '<div class="om-done">' +
       '<div class="om-step"><span class="om-tick">' + ICON_CHECK + '</span><span class="label">Seat reserved</span></div>' +
       '<h3 class="om-title">' + esc(first) + ', <em>I have a gift for you.</em></h3>' +
-      (ask
+      (tg
+        ? '<p class="om-sub">Your seat for ' + esc(whenText) + ' is saved. Before then, I want you to have this:</p>' + giftBox +
+          '<div class="om-actions"><a class="btn btn-block btn-tg" id="tg-btn" href="' + esc(tg) + '" target="_blank" rel="noopener">' + ICON_TG + 'Get my gift on Telegram</a></div>' +
+          '<p class="om-sub tg-note">Telegram opens. Tap <b>Start</b> and your gift and joining link arrive instantly. I\'ll also remind you there before we go live.</p>' +
+          (ask ? '<p class="tg-alt">No Telegram? <a id="gift-btn" href="' + esc(ask) + '">Get it by email instead</a></p>' : '')
+        : ask
         ? '<p class="om-sub">Your seat for ' + esc(whenText) + ' is saved. Before then, I want you to have this:</p>' + giftBox +
           '<p class="om-sub">Tap the button below. Your email app opens with a short message to me. <b>Press Send</b> and I\'ll reply within a minute with your joining link. Then reply <b>“Got it”</b> to that email and your gift comes straight after.</p>' +
           '<div class="om-actions"><a class="btn btn-block" id="gift-btn" href="' + esc(ask) + '">Send me my gift</a></div>'
@@ -866,7 +877,7 @@ document.addEventListener('click', e => {
   const a = e.target.closest('a');
   if (!a) return;
   try {
-    if (a.id === 'gift-btn') fbq('track', 'Contact');
+    if (a.id === 'gift-btn' || a.id === 'tg-btn') fbq('track', 'Contact');
     else if (a.id === 'cal-link' || /calendar\.google\.com|^data:text\/calendar/.test(a.getAttribute('href') || '')) fbq('track', 'Schedule');
   } catch (x) {}
 });
