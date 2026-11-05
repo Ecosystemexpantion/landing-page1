@@ -385,7 +385,7 @@ footer p+p{margin-top:10px}
         <div class="cta-meta">
           <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Free to attend</span>
           <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No card needed</span>
-          <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Link sent by SMS and email</span>
+          <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Seat and gift sent on WhatsApp</span>
         </div>
       </div>
 
@@ -479,8 +479,8 @@ footer p+p{margin-top:10px}
       <h2>Three steps, <em>then Sunday night.</em></h2>
     </div>
     <ol class="steps rv">
-      <li data-n="1"><h3>Reserve your free seat</h3><p>Tap any “Join” button and enter your name, phone number and email. It takes about 20 seconds.</p></li>
-      <li data-n="2"><h3>Claim your free gift</h3><p>Right after you register, tap one button to get your joining link in your inbox. Reply “Got it” and your gift comes straight after.</p></li>
+      <li data-n="1"><h3>Tap one button</h3><p>Tap any “Join” button. WhatsApp opens with your message already typed. Just tap <b>Send</b>. That's it, your seat is saved.</p></li>
+      <li data-n="2"><h3>Get your free AI Sales Assistant</h3><p>I reply on WhatsApp straight away with your gift: your own AI Sales Assistant that answers your buyers and guides them to pay, 24/7.</p></li>
       <li data-n="3"><h3>Join live at 8:00 PM WAT</h3><p>Open the link from your phone on Sunday and follow along, step by step.</p></li>
     </ol>
   </div>
@@ -591,7 +591,7 @@ footer p+p{margin-top:10px}
       <details><summary>Is the training really free?<i></i></summary><p>Yes. Attending costs nothing and you won't be asked for card details. Just reserve your seat and join on Sunday.</p></details>
       <details><summary>What do I need?<i></i></summary><p>A phone with enough data for a live video session. You don't need a laptop.</p></details>
       <details><summary>Do I need any experience?<i></i></summary><p>No. We start from the beginning and show every step on screen. You don't need tech skills or an existing audience to follow along.</p></details>
-      <details><summary>Where does the training happen?<i></i></summary><p>Online. After you reserve your seat, we send your joining link by SMS and email before 8:00 PM on Sunday. If it doesn't arrive, check your Promotions and Spam folders.</p></details>
+      <details><summary>Where does the training happen?<i></i></summary><p>Online, from your phone. After you message me on WhatsApp, I send you your joining link and remind you before 8:00 PM on Sunday. Save my number so my messages reach you.</p></details>
       <details><summary>Will there be a replay?<i></i></summary><p>No. It's a live session and we don't post a replay, so plan to join on Sunday at 8:00 PM WAT.</p></details>
       <details><summary>Does it really work while I sleep?<i></i></summary><p>The store, sales page and AI assistant run around the clock, so buyers can ask questions and pay at any hour, even when you're offline. Whether people buy still depends on your product and how you promote it, which we cover on Sunday.</p></details>
       <details><summary>How much will I earn?<i></i></summary><p>We can't promise any amount, and you should be careful of anyone who does. The training shows you how the setup works. What you earn afterwards depends on the work you put in, the product you choose and your market.</p></details>
@@ -612,7 +612,7 @@ footer p+p{margin-top:10px}
     <div class="cta-meta">
       <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Free to attend</span>
       <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>No card needed</span>
-      <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Link sent by SMS and email</span>
+      <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Seat and gift sent on WhatsApp</span>
     </div>
   </div>
 </section>
@@ -632,6 +632,8 @@ footer p+p{margin-top:10px}
 
 <script>
 // ── SIGNUP (details go straight to the OmniReach app) ──
+// Your WhatsApp Business number (international format, digits only). Every Join button opens a chat with it.
+const WA_NUMBER = '2349053612325';
 const SIGNUP_API = "https://leqizarzgfpiriknpnxw.supabase.co/functions/v1/omnireach";
 // ?p=<page code> sends this page's signups to that student's OmniReach app instead of the coach's.
 const PAGE_ID    = ((new URLSearchParams(location.search).get('p') || '').replace(/[^a-z0-9]/gi, '') || "eem26").slice(0, 40);
@@ -740,8 +742,19 @@ function funnel(ev){
 }
 funnel.sent = {};
 
+// One click: every "Join" button opens WhatsApp with the message already typed. No form.
+function waJoinHref(){
+  const text = 'Hi Coach Victor 👋\n\nI want to join Sunday\'s FREE live training (8PM).\n\nPlease save my seat and send me my FREE AI Sales Assistant (SRE) 🎁';
+  return 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(text);
+}
 function openSignup(){
   funnel('click');
+  if (WA_NUMBER) {
+    // The tap is the sign-up now, so the ad keeps getting its conversion signal.
+    try { fbq('track', 'Lead'); fbq('track', 'CompleteRegistration'); fbq('track', 'Contact'); } catch (e) {}
+    setTimeout(() => { location.href = waJoinHref(); }, 150);
+    return;
+  }
   const modal = document.getElementById('offer-modal');
   document.getElementById('om-when-label').textContent = 'Free · ' + whenText;
   modal.classList.add('open');
@@ -769,7 +782,7 @@ document.getElementById('om-close').addEventListener('click', closeSignup);
 document.getElementById('offer-modal').addEventListener('click', function(e){ if (e.target === this) closeSignup(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSignup(); });
 document.querySelectorAll('.reg').forEach(el => el.addEventListener('click', e => { e.preventDefault(); openSignup(); }));
-if (location.hash === '#register') openSignup();
+document.querySelectorAll('.reg').forEach(el => { if (WA_NUMBER) el.setAttribute('href', waJoinHref()); });
 funnel('view');
 document.getElementById('om-finish').addEventListener('click', () => {
   document.getElementById('om-nudge').classList.remove('show');
@@ -827,7 +840,6 @@ document.getElementById('om-form').addEventListener('submit', async function(e){
 // "Got it" to their joining-link email, which also keeps our later emails out of spam.
 // WhatsApp: after registering, people tap one button and send you a ready-made message; you reply with their gift.
 // Your WhatsApp Business number in international format, digits only (e.g. 2348012345678). Empty = use the email/Telegram flow.
-const WA_NUMBER = '2349053612325';
 const SRE_GIFT = { name: 'Your own AI Sales Assistant (SRE)', detail: 'It replies to every buyer in seconds, answers their questions and guides them to pay, 24/7, even while you sleep. Free for you today.' };
 function waHref(fullName){
   if (!WA_NUMBER) return '';
