@@ -796,8 +796,15 @@ function setJoinLinks(){
   // A new tab keeps this page alive while the pixel sends Lead/CompleteRegistration (leaving at once can cut them off).
   document.querySelectorAll('.reg').forEach(el => { el.setAttribute('href', waJoinHref()); el.setAttribute('target', '_blank'); el.setAttribute('rel', 'noopener'); });
 }
+// A Join tap only opens the sheet: Facebook gets InitiateCheckout. The lead is the tap on "Continue to WhatsApp".
 function trackJoin(){
   funnel('click');
+  try { fbq('track', 'InitiateCheckout'); } catch (e) {}
+}
+let leadSent = false;
+function trackContinue(){
+  if (leadSent) return;
+  leadSent = true;
   try { fbq('track', 'Lead'); fbq('track', 'CompleteRegistration'); fbq('track', 'Contact'); } catch (e) {}
 }
 function openSignup(){
@@ -842,7 +849,10 @@ let waTimer = null;
 function openJoinSheet(){
   trackJoin();
   const sheet = document.getElementById('wa-sheet');
-  document.getElementById('wa-go').setAttribute('href', waJoinHref());
+  const go = document.getElementById('wa-go');
+  go.setAttribute('href', waJoinHref());
+  // A new tab keeps this page open while the Lead event is sent.
+  go.setAttribute('target', '_blank'); go.setAttribute('rel', 'noopener');
   sheet.classList.add('open');
   document.body.style.overflow = 'hidden';
   let left = WA_WAIT;
@@ -863,7 +873,11 @@ function closeJoinSheet(){
   document.body.style.overflow = '';
 }
 document.getElementById('wa-close').addEventListener('click', closeJoinSheet);
-document.getElementById('wa-go').addEventListener('click', () => clearInterval(waTimer));
+document.getElementById('wa-go').addEventListener('click', () => {
+  clearInterval(waTimer);
+  trackContinue();
+  setTimeout(closeJoinSheet, 400);
+});
 // Join buttons: count the tap, then show the sheet (its button and countdown open the WhatsApp group).
 document.querySelectorAll('.reg').forEach(el => el.addEventListener('click', e => {
   e.preventDefault();
