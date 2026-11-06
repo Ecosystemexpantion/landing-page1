@@ -322,9 +322,53 @@ footer p+p{margin-top:10px}
   .sticky{display:none}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.js .rv{opacity:1;transform:none}}
+
+/* ── "Join the group" sheet: shown after a Join tap, before WhatsApp opens ── */
+#wa-sheet{display:none;position:fixed;inset:0;z-index:450;background:rgba(23,21,15,.6);align-items:flex-end;justify-content:center}
+#wa-sheet.open{display:flex;animation:fade .2s ease}
+.wa-card{position:relative;width:100%;max-width:460px;background:var(--surface);border-radius:18px 18px 0 0;border-top:3px solid #E0A526;padding:22px 22px calc(18px + env(safe-area-inset-bottom));animation:up .35s cubic-bezier(.2,.8,.2,1);max-height:94vh;overflow:auto}
+@media(min-width:640px){#wa-sheet{align-items:center}.wa-card{border-radius:16px}}
+.wa-top{display:flex;align-items:center;gap:10px;white-space:nowrap;padding-right:34px;font:700 11px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:14px}
+.wa-top .dot{width:8px;height:8px;border-radius:50%;background:#25D366;box-shadow:0 0 0 4px rgba(37,211,102,.18)}
+.wa-top .sep{width:1px;height:12px;background:var(--rule)}
+.wa-wait{font:800 12px var(--sans);letter-spacing:.18em;color:#B7791F;margin-bottom:6px}
+.wa-title{font-family:var(--serif);font-size:30px;line-height:1.05;font-weight:700;letter-spacing:-.02em;margin-bottom:10px}
+.wa-title em{font-style:italic;color:#B7791F}
+.wa-sub{font-size:15.5px;color:var(--ink-2);margin-bottom:14px}
+.wa-list{list-style:none;padding:14px 0 4px;margin:0 0 14px;border-top:1px solid var(--rule);display:grid;gap:11px}
+.wa-list li{display:grid;grid-template-columns:24px 1fr;gap:10px;font-size:15px;line-height:1.4}
+.wa-list li i{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.4);color:#128C4A;font-style:normal;font-weight:800;font-size:13px}
+.wa-go{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:17px 18px;border-radius:12px;background:#25D366;color:#06210F;font:800 17px var(--sans);text-decoration:none;box-shadow:0 12px 30px -12px rgba(37,211,102,.7)}
+.wa-hint{text-align:center;font-size:13px;color:var(--ink-3);margin:10px 0 12px}
+.wa-hint b{color:var(--ink)}.wa-hint span{color:#128C4A;font-weight:700}
+.wa-bar{height:3px;background:var(--rule);border-radius:2px;overflow:hidden}.wa-bar i{display:block;height:100%;width:100%;background:#E0A526;transform-origin:left;transition:transform 1s linear}
+.wa-close{position:absolute;top:10px;right:10px;width:36px;height:36px;border:0;background:transparent;border-radius:50%;font-size:22px;color:var(--ink-3);cursor:pointer}
 </style>
 </head>
 <body>
+
+
+<!-- JOIN SHEET: after a Join tap, a reminder to tap "Join group" in WhatsApp -->
+<div id="wa-sheet" role="dialog" aria-modal="true" aria-labelledby="wa-title">
+  <div class="wa-card">
+    <button type="button" class="wa-close" id="wa-close" aria-label="Close">&times;</button>
+    <div class="wa-top"><span class="dot"></span>Seat reserved<span class="sep"></span><span id="wa-when">Sunday · 8:00 PM</span></div>
+    <div class="wa-wait">WAIT —</div>
+    <h3 class="wa-title" id="wa-title">Your <em>free gift</em><br>is waiting inside.</h3>
+    <p class="wa-sub">Everything below is yours, <b>completely free</b>, the moment you join the WhatsApp group. No payment. No forms.</p>
+    <ul class="wa-list">
+      <li><i>✓</i><span>Your own <b>AI Sales Assistant</b> (Smart Reply Engine): it replies to your buyers in seconds and guides them to pay, 24/7</span></li>
+      <li><i>✓</i><span>The link to Sunday's <b>free live training</b>, plus reminders so you don't miss it</span></li>
+      <li><i>✓</i><span>Watch the full Selar store setup built live, step by step, from your phone</span></li>
+    </ul>
+    <a class="wa-go" id="wa-go" href="#">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 15l-1.4 5 5.2-1.4A9.9 9.9 0 1 0 12.04 2zm0 18.1a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3.1.8.8-3-.2-.3a8.2 8.2 0 1 1 7 3.9zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>
+      Continue to WhatsApp →
+    </a>
+    <p class="wa-hint">Auto-opening in <b id="wa-count">12</b>s · Tap <span>"Join group"</span> when WhatsApp opens</p>
+    <div class="wa-bar"><i id="wa-bar"></i></div>
+  </div>
+</div>
 
 <!-- SIGNUP SHEET -->
 <div id="offer-modal" role="dialog" aria-modal="true" aria-labelledby="om-title">
@@ -790,10 +834,41 @@ function closeSignup(force){
 document.getElementById('om-close').addEventListener('click', closeSignup);
 document.getElementById('offer-modal').addEventListener('click', function(e){ if (e.target === this) closeSignup(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSignup(); });
-// Join buttons: count the tap, then let the link open the WhatsApp group in a new tab.
+
+// Join sheet: the tap counts as the lead (pixel + funnel), then a short reminder before WhatsApp opens,
+// because many people open the invite and never press "Join group".
+const WA_WAIT = 12;
+let waTimer = null;
+function openJoinSheet(){
+  trackJoin();
+  const sheet = document.getElementById('wa-sheet');
+  document.getElementById('wa-go').setAttribute('href', waJoinHref());
+  sheet.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  let left = WA_WAIT;
+  const count = document.getElementById('wa-count'), bar = document.getElementById('wa-bar');
+  count.textContent = left; bar.style.transition = 'none'; bar.style.transform = 'scaleX(1)';
+  requestAnimationFrame(() => { bar.style.transition = 'transform 1s linear'; });
+  clearInterval(waTimer);
+  waTimer = setInterval(() => {
+    left--;
+    count.textContent = Math.max(left, 0);
+    bar.style.transform = 'scaleX(' + Math.max(left, 0) / WA_WAIT + ')';
+    if (left <= 0) { clearInterval(waTimer); location.href = waJoinHref(); }
+  }, 1000);
+}
+function closeJoinSheet(){
+  clearInterval(waTimer);
+  document.getElementById('wa-sheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('wa-close').addEventListener('click', closeJoinSheet);
+document.getElementById('wa-go').addEventListener('click', () => clearInterval(waTimer));
+// Join buttons: count the tap, then show the sheet (its button and countdown open the WhatsApp group).
 document.querySelectorAll('.reg').forEach(el => el.addEventListener('click', e => {
-  if (WA_NUMBER) { trackJoin(); return; }
-  e.preventDefault(); openSignup();
+  e.preventDefault();
+  if (WA_NUMBER) { openJoinSheet(); return; }
+  openSignup();
 }));
 setJoinLinks();
 funnel('view');
